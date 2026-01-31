@@ -3,9 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Personal Mock Test Tracker</title>
+    <title> NITISH KUMAR MAVIDI | AI-Powered Mock Test Analysis</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -14,190 +16,435 @@
         }
 
         :root {
-            --primary: #4361ee;
-            --secondary: #3a0ca3;
-            --success: #4cc9f0;
-            --danger: #f72585;
-            --warning: #f8961e;
-            --light: #f8f9fa;
-            --dark: #212529;
-            --gray: #6c757d;
+            --ibps-blue: #0047AB;
+            --ibps-red: #D22630;
+            --ibps-gold: #FFD700;
+            --premium-purple: #6A0DAD;
+            --success-green: #00C853;
+            --warning-orange: #FF9800;
+            --danger-red: #F44336;
+            --section-bg: #F8F9FA;
+            --dark-text: #212529;
         }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            font-family: 'Montserrat', sans-serif;
+            background: linear-gradient(135deg, #000428, #004e92);
+            color: var(--dark-text);
             min-height: 100vh;
-            padding: 20px;
-            color: var(--dark);
         }
 
         .container {
-            max-width: 1200px;
+            max-width: 1600px;
             margin: 0 auto;
             background: white;
-            border-radius: 20px;
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 0 80px rgba(0,0,0,0.4);
+            position: relative;
             overflow: hidden;
         }
 
-        header {
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
+        /* PREMIUM HEADER */
+        .premium-header {
+            background: linear-gradient(135deg, var(--ibps-blue), #002D62);
             color: white;
-            padding: 1.5rem 2rem;
+            padding: 1.5rem 3rem;
+            position: relative;
+            border-bottom: 6px solid var(--ibps-gold);
         }
 
-        .header-content {
+        .header-top {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            flex-wrap: wrap;
+            margin-bottom: 1.5rem;
+        }
+
+        .logo-section {
+            display: flex;
+            align-items: center;
             gap: 20px;
         }
 
-        .header-left h1 {
-            font-size: 2rem;
-            margin-bottom: 0.5rem;
-            display: flex;
-            align-items: center;
-            gap: 15px;
+        .logo {
+            font-size: 2.8rem;
+            color: var(--ibps-gold);
         }
 
-        .header-left p {
+        .brand-name h1 {
+            font-size: 2.2rem;
+            font-weight: 900;
+            letter-spacing: 1px;
+            margin-bottom: 5px;
+            background: linear-gradient(90deg, #FFD700, #FFFFFF);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .brand-name p {
+            font-size: 0.9rem;
             opacity: 0.9;
+            letter-spacing: 2px;
         }
 
-        .test-counter {
-            background: rgba(255, 255, 255, 0.2);
-            padding: 10px 20px;
-            border-radius: 10px;
-            font-size: 1.2rem;
-        }
-
-        .main-content {
-            padding: 2rem;
-            display: grid;
-            gap: 2rem;
-        }
-
-        .dashboard-cards {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 1.5rem;
-        }
-
-        .card {
-            background: white;
-            border-radius: 15px;
-            padding: 1.5rem;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-            border: 2px solid #e9ecef;
-        }
-
-        .card h2 {
-            color: var(--primary);
-            margin-bottom: 1.5rem;
+        .premium-badge {
+            background: linear-gradient(135deg, var(--premium-purple), #8A2BE2);
+            padding: 8px 20px;
+            border-radius: 30px;
+            font-weight: 700;
             display: flex;
             align-items: center;
-            gap: 10px;
-            font-size: 1.3rem;
+            gap: 8px;
+            border: 2px solid var(--ibps-gold);
+            box-shadow: 0 4px 15px rgba(106, 13, 173, 0.4);
         }
 
-        .input-group {
-            margin-bottom: 1.2rem;
+        /* EXAM SELECTOR */
+        .exam-selector {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            margin-top: 1rem;
+            padding: 1rem;
+            background: rgba(255,255,255,0.1);
+            border-radius: 12px;
         }
 
-        .input-group label {
-            display: block;
-            margin-bottom: 0.5rem;
-            font-weight: 600;
-            color: var(--dark);
-        }
-
-        .input-group input {
-            width: 100%;
-            padding: 12px;
-            border: 2px solid #dee2e6;
+        .exam-btn {
+            padding: 10px 25px;
+            background: rgba(255,255,255,0.15);
+            border: 2px solid rgba(255,215,0,0.3);
             border-radius: 8px;
-            font-size: 1rem;
-            transition: border-color 0.3s;
-        }
-
-        .input-group input:focus {
-            outline: none;
-            border-color: var(--primary);
-        }
-
-        .btn {
-            padding: 12px 24px;
-            border: none;
-            border-radius: 8px;
-            font-size: 1rem;
+            color: white;
             font-weight: 600;
             cursor: pointer;
             transition: all 0.3s;
+        }
+
+        .exam-btn:hover, .exam-btn.active {
+            background: var(--ibps-gold);
+            color: var(--ibps-blue);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(255,215,0,0.3);
+        }
+
+        /* MAIN DASHBOARD */
+        .main-dashboard {
+            padding: 2rem 3rem;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+        }
+
+        @media (max-width: 1200px) {
+            .main-dashboard {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* SCORING PANEL */
+        .scoring-panel {
+            background: var(--section-bg);
+            padding: 2rem;
+            border-radius: 20px;
+            border: 2px solid #E9ECEF;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+        }
+
+        .panel-title {
+            color: var(--ibps-blue);
+            font-size: 1.5rem;
+            font-weight: 800;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            border-bottom: 3px solid var(--ibps-gold);
+            padding-bottom: 10px;
+        }
+
+        /* SECTION CARDS */
+        .section-cards {
+            display: grid;
+            gap: 1.5rem;
+        }
+
+        .section-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 15px;
+            border-left: 5px solid var(--ibps-blue);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+            transition: transform 0.3s;
+        }
+
+        .section-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .section-card h3 {
+            color: var(--ibps-blue);
+            margin-bottom: 1.2rem;
+            font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .input-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        @media (max-width: 768px) {
+            .input-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #495057;
+            font-size: 0.95rem;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #CED4DA;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 500;
+            transition: all 0.3s;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: var(--ibps-blue);
+            box-shadow: 0 0 0 3px rgba(0, 71, 171, 0.1);
+        }
+
+        /* ACTION BUTTONS */
+        .action-buttons {
+            display: flex;
+            gap: 15px;
+            margin-top: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 14px 28px;
+            border: none;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
             display: inline-flex;
             align-items: center;
-            gap: 8px;
+            gap: 10px;
+            transition: all 0.3s;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
 
         .btn-primary {
-            background: var(--primary);
+            background: linear-gradient(135deg, var(--ibps-blue), #003580);
             color: white;
         }
 
         .btn-primary:hover {
-            background: var(--secondary);
-            transform: translateY(-2px);
+            background: linear-gradient(135deg, #003580, var(--ibps-blue));
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0, 71, 171, 0.3);
         }
 
         .btn-success {
-            background: #28a745;
+            background: linear-gradient(135deg, var(--success-green), #00B248);
             color: white;
-            margin-left: 10px;
         }
 
         .btn-success:hover {
-            background: #218838;
-            transform: translateY(-2px);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0, 200, 83, 0.3);
         }
 
-        .btn-warning {
-            background: var(--warning);
+        .btn-premium {
+            background: linear-gradient(135deg, var(--premium-purple), #8A2BE2);
             color: white;
         }
 
-        .btn-warning:hover {
-            background: #e68a00;
-            transform: translateY(-2px);
+        .btn-premium:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(106, 13, 173, 0.3);
         }
 
-        .results-grid {
+        /* RESULTS PANEL */
+        .results-panel {
+            background: var(--section-bg);
+            padding: 2rem;
+            border-radius: 20px;
+            border: 2px solid #E9ECEF;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+        }
+
+        /* SCORE DISPLAY */
+        .score-display {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            grid-template-columns: repeat(4, 1fr);
             gap: 1rem;
-            margin: 1.5rem 0;
+            margin: 2rem 0;
         }
 
-        .result-item {
+        @media (max-width: 1024px) {
+            .score-display {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 480px) {
+            .score-display {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .score-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 15px;
             text-align: center;
-            padding: 1rem;
-            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
-            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            border-top: 5px solid var(--ibps-blue);
         }
 
-        .result-item h3 {
-            color: var(--gray);
+        .score-card h4 {
+            color: #6C757D;
             font-size: 0.9rem;
-            margin-bottom: 0.5rem;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
 
-        .result-value {
+        .score-value {
+            font-size: 2.2rem;
+            font-weight: 800;
+            color: var(--ibps-blue);
+        }
+
+        .score-grade {
             font-size: 1.8rem;
-            font-weight: bold;
-            color: var(--primary);
+            font-weight: 900;
+            color: var(--premium-purple);
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
         }
 
+        /* ANALYTICS SECTION */
+        .analytics-section {
+            margin-top: 3rem;
+        }
+
+        .charts-container {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2rem;
+            margin-top: 1.5rem;
+        }
+
+        @media (max-width: 1024px) {
+            .charts-container {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .chart-box {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+        }
+
+        .chart-box h3 {
+            color: var(--ibps-blue);
+            margin-bottom: 1rem;
+            font-size: 1.2rem;
+        }
+
+        .chart-container {
+            height: 250px;
+            position: relative;
+        }
+
+        /* SECTION WISE ANALYSIS */
+        .section-analysis {
+            margin-top: 3rem;
+        }
+
+        .section-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        @media (max-width: 1200px) {
+            .section-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 600px) {
+            .section-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .subject-card {
+            background: white;
+            padding: 1.2rem;
+            border-radius: 12px;
+            text-align: center;
+            border: 2px solid #E9ECEF;
+            transition: all 0.3s;
+        }
+
+        .subject-card:hover {
+            border-color: var(--ibps-blue);
+            transform: translateY(-5px);
+        }
+
+        .subject-card h4 {
+            color: var(--ibps-blue);
+            font-size: 1rem;
+            margin-bottom: 10px;
+        }
+
+        .subject-stats {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 10px;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--dark-text);
+        }
+
+        .stat-label {
+            font-size: 0.8rem;
+            color: #6C757D;
+        }
+
+        /* PROGRESS BARS */
         .progress-container {
             margin: 1.5rem 0;
         }
@@ -206,834 +453,1170 @@
             margin-bottom: 1rem;
         }
 
-        .progress-item label {
-            display: block;
-            margin-bottom: 0.5rem;
+        .progress-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+        }
+
+        .progress-label {
             font-weight: 600;
+            color: #495057;
+        }
+
+        .progress-value {
+            font-weight: 700;
+            color: var(--ibps-blue);
         }
 
         .progress-bar {
-            height: 20px;
-            background: #e9ecef;
-            border-radius: 10px;
+            height: 12px;
+            background: #E9ECEF;
+            border-radius: 6px;
             overflow: hidden;
         }
 
         .progress-fill {
             height: 100%;
-            background: linear-gradient(90deg, var(--success), var(--primary));
+            background: linear-gradient(90deg, var(--success-green), var(--ibps-blue));
             width: 0%;
             transition: width 1s ease;
+            border-radius: 6px;
         }
 
-        .grade-display {
-            text-align: center;
+        /* RECOMMENDATIONS */
+        .recommendations {
+            background: linear-gradient(135deg, #E3F2FD, #F3E5F5);
             padding: 2rem;
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            color: white;
-            border-radius: 10px;
-            margin: 1rem 0;
-        }
-
-        .grade-display h3 {
-            font-size: 1rem;
-            margin-bottom: 0.5rem;
-            opacity: 0.9;
-        }
-
-        .grade-value {
-            font-size: 3rem;
-            font-weight: bold;
-        }
-
-        .history-section {
+            border-radius: 15px;
             margin-top: 2rem;
+            border-left: 5px solid var(--premium-purple);
         }
 
-        .chart-container {
-            height: 300px;
-            margin: 1rem 0;
-        }
-
-        .test-list {
-            max-height: 300px;
-            overflow-y: auto;
-            margin-top: 1rem;
-            border: 1px solid #dee2e6;
-            border-radius: 10px;
-        }
-
-        .test-item {
-            padding: 1rem;
-            border-bottom: 1px solid #dee2e6;
+        .recommendations h3 {
+            color: var(--premium-purple);
+            margin-bottom: 1.2rem;
             display: flex;
-            justify-content: space-between;
             align-items: center;
+            gap: 10px;
         }
 
-        .test-item:last-child {
+        .recommendation-list {
+            list-style: none;
+        }
+
+        .recommendation-list li {
+            padding: 10px 0;
+            border-bottom: 1px solid rgba(106, 13, 173, 0.1);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .recommendation-list li:last-child {
             border-bottom: none;
         }
 
-        .test-item:hover {
-            background: #f8f9fa;
+        /* COMPARISON PANEL */
+        .comparison-panel {
+            margin-top: 3rem;
+            background: var(--section-bg);
+            padding: 2rem;
+            border-radius: 20px;
         }
 
-        .test-date {
-            font-weight: bold;
-            color: var(--primary);
-        }
-
-        .test-score {
-            font-size: 1.2rem;
-            font-weight: bold;
-        }
-
-        .delete-test {
-            background: var(--danger);
-            color: white;
-            border: none;
-            padding: 5px 10px;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 0.8rem;
-        }
-
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 1rem;
+        .comparison-chart {
+            height: 300px;
             margin-top: 1.5rem;
         }
 
-        .stat-card {
-            background: white;
-            padding: 1rem;
-            border-radius: 10px;
-            text-align: center;
-            border: 2px solid #e9ecef;
+        /* HISTORY SECTION */
+        .history-section {
+            padding: 3rem;
+            background: linear-gradient(135deg, #F8F9FA, #FFFFFF);
         }
 
-        .stat-card h4 {
-            color: var(--gray);
+        .history-table-container {
+            overflow-x: auto;
+            margin: 2rem 0;
+            border-radius: 12px;
+            box-shadow: 0 5px 25px rgba(0,0,0,0.08);
+        }
+
+        .history-table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 1000px;
+        }
+
+        .history-table thead {
+            background: linear-gradient(135deg, var(--ibps-blue), #003580);
+            color: white;
+        }
+
+        .history-table th {
+            padding: 1.2rem 1rem;
+            text-align: left;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
             font-size: 0.9rem;
-            margin-bottom: 0.5rem;
         }
 
-        .stat-value {
-            font-size: 1.5rem;
-            font-weight: bold;
-            color: var(--primary);
+        .history-table tbody tr {
+            border-bottom: 1px solid #E9ECEF;
+            transition: background 0.3s;
         }
 
-        .stat-change {
+        .history-table tbody tr:hover {
+            background: #F8F9FA;
+        }
+
+        .history-table td {
+            padding: 1rem;
+            font-weight: 500;
+        }
+
+        .rank-badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-weight: 700;
             font-size: 0.8rem;
-            color: var(--gray);
-            margin-top: 0.5rem;
         }
 
-        footer {
+        .rank-1 {
+            background: linear-gradient(135deg, #FFD700, #FFEC8B);
+            color: #856404;
+        }
+
+        .rank-2 {
+            background: linear-gradient(135deg, #C0C0C0, #E8E8E8);
+            color: #495057;
+        }
+
+        .rank-3 {
+            background: linear-gradient(135deg, #CD7F32, #E8B886);
+            color: #664400;
+        }
+
+        /* PREMIUM FEATURES */
+        .premium-features {
+            background: linear-gradient(135deg, var(--premium-purple), #4B0082);
+            color: white;
+            padding: 3rem;
             text-align: center;
-            padding: 1.5rem;
-            background: #f8f9fa;
-            color: var(--gray);
-            border-top: 2px solid #e9ecef;
+        }
+
+        .premium-features h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            font-weight: 900;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        @media (max-width: 1024px) {
+            .features-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
         }
 
         @media (max-width: 768px) {
-            .container {
-                margin: 10px;
-                border-radius: 10px;
-            }
-            
-            .main-content {
-                padding: 1rem;
-            }
-            
-            .dashboard-cards {
+            .features-grid {
                 grid-template-columns: 1fr;
             }
-            
-            .header-content {
-                flex-direction: column;
-                text-align: center;
+        }
+
+        .feature-card {
+            background: rgba(255,255,255,0.1);
+            padding: 2rem;
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.2);
+            transition: all 0.3s;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            background: rgba(255,255,255,0.15);
+        }
+
+        .feature-icon {
+            font-size: 3rem;
+            color: var(--ibps-gold);
+            margin-bottom: 1rem;
+        }
+
+        /* FOOTER */
+        .premium-footer {
+            background: #002D62;
+            color: white;
+            padding: 2rem 3rem;
+            text-align: center;
+            border-top: 5px solid var(--ibps-gold);
+        }
+
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 2rem;
+        }
+
+        .copyright {
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 768px) {
+            .premium-header, .main-dashboard, .history-section {
+                padding: 1.5rem;
             }
             
-            .results-grid {
-                grid-template-columns: repeat(2, 1fr);
+            .header-top {
+                flex-direction: column;
+                text-align: center;
+                gap: 1rem;
+            }
+            
+            .brand-name h1 {
+                font-size: 1.8rem;
+            }
+            
+            .panel-title {
+                font-size: 1.3rem;
             }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <header>
-            <div class="header-content">
-                <div class="header-left">
-                    <h1><i class="fas fa-user-graduate"></i> My Mock Test Tracker</h1>
-                    <p>Track your progress and improve your scores</p>
+        <!-- PREMIUM HEADER -->
+        <header class="premium-header">
+            <div class="header-top">
+                <div class="logo-section">
+                    <div class="logo">
+                        <i class="fas fa-university"></i>
+                    </div>
+                    <div class="brand-name">
+                        <h1>BANK PO PRO ANALYTICS</h1>
+                        <p>AI-POWERED MOCK TEST ANALYSIS PLATFORM</p>
+                    </div>
                 </div>
-                <div class="test-counter">
-                    <i class="fas fa-chart-line"></i> 
-                    Tests Taken: <span id="totalTests">0</span>
+                <div class="premium-badge">
+                    <i class="fas fa-crown"></i>
+                    MOCK ANYALSIS
                 </div>
+            </div>
+            
+            <div class="exam-selector">
+                <button class="exam-btn active">INSURANCE EXAMS</button>
+                <button class="exam-btn">SBI PO</button>
+                <button class="exam-btn">SBI CLERK</button>
+                <button class="exam-btn">IBPS CLERK</button>
+                <button class="exam-btn">IBPS PO</button>
+                <button class="exam-btn">RRB PO</button>
+                <button class="exam-btn">RRB CLERK</button>
+                <button class="exam-btn">OTHER EXAMS</button>
             </div>
         </header>
 
-        <div class="main-content">
-            <div class="dashboard-cards">
-                <!-- Scoring Card -->
-                <div class="card">
-                    <h2><i class="fas fa-calculator"></i> Score Calculator</h2>
-                    
-                    <div class="input-group">
-                        <label><i class="fas fa-list-ol"></i> Total Questions:</label>
-                        <input type="number" id="totalQuestions" min="1" value="100">
-                    </div>
-                    
-                    <div class="input-group">
-                        <label><i class="fas fa-plus-circle"></i> Positive Marks:</label>
-                        <input type="number" id="positiveMarks" min="0" step="0.25" value="4">
-                    </div>
-                    
-                    <div class="input-group">
-                        <label><i class="fas fa-minus-circle"></i> Negative Marks:</label>
-                        <input type="number" id="negativeMarks" min="0" step="0.25" value="1">
-                    </div>
-                    
-                    <div class="input-group">
-                        <label><i class="fas fa-check-circle"></i> Correct Answers:</label>
-                        <input type="number" id="correctAnswers" min="0" value="75">
-                    </div>
-                    
-                    <div class="input-group">
-                        <label><i class="fas fa-times-circle"></i> Wrong Answers:</label>
-                        <input type="number" id="wrongAnswers" min="0" value="15">
-                    </div>
-                    
-                    <button id="calculateBtn" class="btn btn-primary">
-                        <i class="fas fa-calculator"></i> Calculate Score
-                    </button>
-                    
-                    <button id="saveTestBtn" class="btn btn-success">
-                        <i class="fas fa-save"></i> Save This Test
-                    </button>
-                </div>
-
-                <!-- Results Card -->
-                <div class="card">
-                    <h2><i class="fas fa-chart-bar"></i> Current Test Results</h2>
-                    
-                    <div class="results-grid">
-                        <div class="result-item">
-                            <h3>Score</h3>
-                            <div id="totalScore" class="result-value">0</div>
-                        </div>
-                        <div class="result-item">
-                            <h3>Percentage</h3>
-                            <div id="percentage" class="result-value">0%</div>
-                        </div>
-                        <div class="result-item">
-                            <h3>Attempted</h3>
-                            <div id="attempted" class="result-value">0</div>
-                        </div>
-                        <div class="result-item">
-                            <h3>Unattempted</h3>
-                            <div id="unattempted" class="result-value">0</div>
-                        </div>
-                    </div>
-                    
-                    <div class="grade-display">
-                        <h3>Your Grade</h3>
-                        <div id="grade" class="grade-value">-</div>
-                    </div>
-                    
-                    <div class="progress-container">
-                        <div class="progress-item">
-                            <label>Accuracy: <span id="accuracyText">0%</span></label>
-                            <div class="progress-bar">
-                                <div id="accuracyBar" class="progress-fill"></div>
+        <!-- MAIN DASHBOARD -->
+        <main class="main-dashboard">
+            <!-- SCORING PANEL -->
+            <section class="scoring-panel">
+                <h2 class="panel-title">
+                    <i class="fas fa-sliders-h"></i>
+                    MOCK TEST PARAMETERS
+                </h2>
+                
+                <div class="section-cards">
+                    <!-- Test Structure -->
+                    <div class="section-card">
+                        <h3><i class="fas fa-layer-group"></i> TEST STRUCTURE</h3>
+                        <div class="input-grid">
+                            <div class="form-group">
+                                <label>Total Questions</label>
+                                <input type="number" id="totalQuestions" value="100" min="1">
+                            </div>
+                            <div class="form-group">
+                                <label>Total Marks</label>
+                                <input type="number" id="totalMarks" value="200" min="1">
+                            </div>
+                            <div class="form-group">
+                                <label>Duration (Minutes)</label>
+                                <input type="number" id="duration" value="60" min="1">
+                            </div>
+                            <div class="form-group">
+                                <label>Cut-off (Expected)</label>
+                                <input type="number" id="cutOff" value="70" min="1">
                             </div>
                         </div>
-                        
-                        <div class="progress-item">
-                            <label>Completion: <span id="completionText">0%</span></label>
-                            <div class="progress-bar">
-                                <div id="completionBar" class="progress-fill"></div>
+                    </div>
+                    
+                    <!-- Marking Scheme -->
+                    <div class="section-card">
+                        <h3><i class="fas fa-percentage"></i> MARKING SCHEME</h3>
+                        <div class="input-grid">
+                            <div class="form-group">
+                                <label>Correct Answer Marks</label>
+                                <input type="number" id="positiveMarks" value="1" step="0.25" min="0">
+                            </div>
+                            <div class="form-group">
+                                <label>Wrong Answer Penalty</label>
+                                <input type="number" id="negativeMarks" value="0.25" step="0.05" min="0">
+                            </div>
+                            <div class="form-group">
+                                <label>Sectional Cut-off</label>
+                                <input type="number" id="sectionalCutoff" value="20" min="0">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Your Performance -->
+                    <div class="section-card">
+                        <h3><i class="fas fa-user-tie"></i> YOUR PERFORMANCE</h3>
+                        <div class="input-grid">
+                            <div class="form-group">
+                                <label>Correct Answers</label>
+                                <input type="number" id="correctAnswers" value="72" min="0">
+                            </div>
+                            <div class="form-group">
+                                <label>Wrong Answers</label>
+                                <input type="number" id="wrongAnswers" value="18" min="0">
+                            </div>
+                            <div class="form-group">
+                                <label>Unattempted</label>
+                                <input type="number" id="unattempted" value="10" min="0" readonly>
+                            </div>
+                            <div class="form-group">
+                                <label>Time Taken (Min)</label>
+                                <input type="number" id="timeTaken" value="55" min="0">
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-
-            <!-- Stats Card -->
-            <div class="card">
-                <h2><i class="fas fa-chart-pie"></i> Your Performance Statistics</h2>
                 
-                <div class="stats-grid">
-                    <div class="stat-card">
-                        <h4>Average Score</h4>
-                        <div id="avgScore" class="stat-value">0</div>
-                        <div id="scoreTrend" class="stat-change"></div>
-                    </div>
-                    
-                    <div class="stat-card">
-                        <h4>Best Score</h4>
-                        <div id="bestScore" class="stat-value">0</div>
-                        <div class="stat-change">Keep it up!</div>
-                    </div>
-                    
-                    <div class="stat-card">
-                        <h4>Average Accuracy</h4>
-                        <div id="avgAccuracy" class="stat-value">0%</div>
-                        <div id="accuracyTrend" class="stat-change"></div>
-                    </div>
-                    
-                    <div class="stat-card">
-                        <h4>Tests This Month</h4>
-                        <div id="monthlyTests" class="stat-value">0</div>
-                        <div class="stat-change">Current month</div>
-                    </div>
-                </div>
-                
-                <div class="chart-container">
-                    <canvas id="progressChart"></canvas>
-                </div>
-            </div>
-
-            <!-- Test History -->
-            <div class="card">
-                <h2><i class="fas fa-history"></i> Test History</h2>
-                
-                <div class="test-list" id="testHistory">
-                    <!-- Test items will be added here -->
-                    <div class="test-item empty-history">
-                        <div>No tests saved yet. Calculate and save your first test!</div>
-                    </div>
-                </div>
-                
-                <div style="margin-top: 1rem; text-align: center;">
-                    <button id="clearHistoryBtn" class="btn btn-warning">
-                        <i class="fas fa-trash-alt"></i> Clear All History
+                <!-- Action Buttons -->
+                <div class="action-buttons">
+                    <button id="analyzeBtn" class="btn btn-primary">
+                        <i class="fas fa-chart-line"></i>
+                        ANALYZE PERFORMANCE
                     </button>
-                    
-                    <button id="exportDataBtn" class="btn btn-success">
-                        <i class="fas fa-file-export"></i> Export My Data
+                    <button id="saveMockBtn" class="btn btn-success">
+                        <i class="fas fa-save"></i>
+                        SAVE MOCK TEST
+                    </button>
+                    <button id="compareBtn" class="btn btn-premium">
+                        <i class="fas fa-balance-scale"></i>
+                        COMPARE WITH TOPPERS
                     </button>
                 </div>
-            </div>
-        </div>
+            </section>
 
-        <footer>
-            <p>Personal Mock Test Tracker &copy; 2024 | Made for self-improvement</p>
-            <p style="margin-top: 10px; font-size: 0.9rem;">
-                Your data is saved locally in your browser. Export regularly to keep backups!
-            </p>
+            <!-- RESULTS PANEL -->
+            <section class="results-panel">
+                <h2 class="panel-title">
+                    <i class="fas fa-medal"></i>
+                    PERFORMANCE ANALYSIS
+                </h2>
+                
+                <!-- Score Display -->
+                <div class="score-display">
+                    <div class="score-card">
+                        <h4>Total Score</h4>
+                        <div id="totalScore" class="score-value">0</div>
+                    </div>
+                    <div class="score-card">
+                        <h4>Percentage</h4>
+                        <div id="percentage" class="score-value">0%</div>
+                    </div>
+                    <div class="score-card">
+                        <h4>All India Rank</h4>
+                        <div id="rank" class="score-value">#0</div>
+                    </div>
+                    <div class="score-card">
+                        <h4>Your Grade</h4>
+                        <div id="grade" class="score-grade">-</div>
+                    </div>
+                </div>
+                
+                <!-- Progress Bars -->
+                <div class="progress-container">
+                    <div class="progress-item">
+                        <div class="progress-header">
+                            <span class="progress-label">Accuracy Rate</span>
+                            <span id="accuracyValue" class="progress-value">0%</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div id="accuracyBar" class="progress-fill"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="progress-item">
+                        <div class="progress-header">
+                            <span class="progress-label">Speed (Ques/Min)</span>
+                            <span id="speedValue" class="progress-value">0</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div id="speedBar" class="progress-fill"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="progress-item">
+                        <div class="progress-header">
+                            <span class="progress-label">Cut-off Safety Margin</span>
+                            <span id="safetyMargin" class="progress-value">0%</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div id="safetyBar" class="progress-fill"></div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Section Wise Analysis -->
+                <div class="section-analysis">
+                    <h3 class="panel-title" style="border: none; padding: 0; margin-bottom: 1rem;">
+                        <i class="fas fa-chart-pie"></i>
+                        SECTION WISE ANALYSIS
+                    </h3>
+                    
+                    <div class="section-grid">
+                        <!-- Cards will be populated by JavaScript -->
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- ANALYTICS SECTION -->
+        <section class="analytics-section main-dashboard">
+            <div class="charts-container">
+                <div class="chart-box">
+                    <h3><i class="fas fa-bullseye"></i> ACCURACY TREND</h3>
+                    <div class="chart-container">
+                        <canvas id="accuracyChart"></canvas>
+                    </div>
+                </div>
+                
+                <div class="chart-box">
+                    <h3><i class="fas fa-tachometer-alt"></i> SPEED ANALYSIS</h3>
+                    <div class="chart-container">
+                        <canvas id="speedChart"></canvas>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Recommendations -->
+            <div class="recommendations">
+                <h3><i class="fas fa-lightbulb"></i> AI RECOMMENDATIONS</h3>
+                <ul class="recommendation-list" id="recommendationsList">
+                    <!-- Will be populated by JavaScript -->
+                </ul>
+            </div>
+        </section>
+
+        <!-- COMPARISON PANEL -->
+        <section class="comparison-panel main-dashboard">
+            <h2 class="panel-title">
+                <i class="fas fa-users"></i>
+                COMPARISON WITH TOPPERS
+            </h2>
+            <div class="comparison-chart">
+                <canvas id="comparisonChart"></canvas>
+            </div>
+        </section>
+
+        <!-- MOCK TEST HISTORY -->
+        <section class="history-section">
+            <h2 class="panel-title">
+                <i class="fas fa-history"></i>
+                YOUR MOCK TEST HISTORY
+            </h2>
+            
+            <div class="history-table-container">
+                <table class="history-table">
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Test Name</th>
+                            <th>Score</th>
+                            <th>Percentage</th>
+                            <th>Rank</th>
+                            <th>Accuracy</th>
+                            <th>Time</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody id="historyTableBody">
+                        <!-- Will be populated by JavaScript -->
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- PREMIUM FEATURES -->
+        <section class="premium-features">
+            <h2>PREMIUM FEATURES</h2>
+            <p>Everything you need to crack IBPS PO with top rank</p>
+            
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-brain"></i>
+                    </div>
+                    <h3>AI Performance Analysis</h3>
+                    <p>Deep analysis of your strengths and weaknesses</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-chart-network"></i>
+                    </div>
+                    <h3>Predictive Analytics</h3>
+                    <p>Predict your expected rank and score</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-trophy"></i>
+                    </div>
+                    <h3>Topper Comparison</h3>
+                    <p>Compare with previous year toppers</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <h3>Time Management</h3>
+                    <p>Optimize your time per question</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-bullseye"></i>
+                    </div>
+                    <h3>Question Strategy</h3>
+                    <p>Which questions to attempt first</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-file-pdf"></i>
+                    </div>
+                    <h3>Detailed Reports</h3>
+                    <p>Export comprehensive analysis reports</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- FOOTER -->
+        <footer class="premium-footer">
+            <div class="footer-content">
+                <div class="logo">
+                    <i class="fas fa-university fa-2x"></i>
+                </div>
+                <div class="copyright">
+                    <p>© 2026 BANK PO PRO ANALYTICS | nitish kumar mavidi's personal website</p>
+                    <p>Designed for Serious Bank PO Aspirants | Not affiliated with IBPS/SBI/RBI</p>
+                </div>
+                <div class="premium-badge">
+                    <i class="fas fa-shield-alt"></i>
+                    SECURE & PRIVATE
+                </div>
+            </div>
         </footer>
     </div>
 
     <script>
-        // DOM Elements
-        const totalQuestionsInput = document.getElementById('totalQuestions');
-        const correctAnswersInput = document.getElementById('correctAnswers');
-        const wrongAnswersInput = document.getElementById('wrongAnswers');
-        const positiveMarksInput = document.getElementById('positiveMarks');
-        const negativeMarksInput = document.getElementById('negativeMarks');
-        const calculateBtn = document.getElementById('calculateBtn');
-        const saveTestBtn = document.getElementById('saveTestBtn');
-        const clearHistoryBtn = document.getElementById('clearHistoryBtn');
-        const exportDataBtn = document.getElementById('exportDataBtn');
-
-        // Results Elements
-        const totalScoreEl = document.getElementById('totalScore');
-        const percentageEl = document.getElementById('percentage');
-        const gradeEl = document.getElementById('grade');
-        const attemptedEl = document.getElementById('attempted');
-        const unattemptedEl = document.getElementById('unattempted');
-        const accuracyBar = document.getElementById('accuracyBar');
-        const accuracyText = document.getElementById('accuracyText');
-        const completionBar = document.getElementById('completionBar');
-        const completionText = document.getElementById('completionText');
-
-        // Stats Elements
-        const totalTestsEl = document.getElementById('totalTests');
-        const avgScoreEl = document.getElementById('avgScore');
-        const bestScoreEl = document.getElementById('bestScore');
-        const avgAccuracyEl = document.getElementById('avgAccuracy');
-        const monthlyTestsEl = document.getElementById('monthlyTests');
-        const scoreTrendEl = document.getElementById('scoreTrend');
-        const accuracyTrendEl = document.getElementById('accuracyTrend');
-
-        // History List
-        const testHistoryEl = document.getElementById('testHistory');
-
-        // Chart
-        let progressChart = null;
-
-        // Store tests data
-        let myTests = JSON.parse(localStorage.getItem('myMockTests')) || [];
-
-        // Initialize
+        // ======================
+        // kumars po anyalsis 2026
+        // ======================
+        
+        // Initialize Charts
+        let accuracyChart, speedChart, comparisonChart;
+        
+        // Mock test history
+        let mockHistory = JSON.parse(localStorage.getItem('bankpoMockHistory')) || [];
+        
+        // Bank PO Sections
+        const bankSections = [
+            { name: 'Quantitative Aptitude', short: 'Quant', weight: 35, icon: 'fas fa-calculator' },
+            { name: 'Reasoning Ability', short: 'Reasoning', weight: 35, icon: 'fas fa-brain' },
+            { name: 'English Language', short: 'English', weight: 30, icon: 'fas fa-language' },
+            { name: 'General Awareness', short: 'GA', weight: 0, icon: 'fas fa-globe-asia' },
+            { name: 'Computer Knowledge', short: 'Computer', weight: 0, icon: 'fas fa-laptop-code' }
+        ];
+        
+        // Initialize on load
         document.addEventListener('DOMContentLoaded', function() {
-            updateResults();
-            updateStats();
-            renderTestHistory();
-            initializeChart();
+            initializeCharts();
+            updateUnattempted();
+            loadSampleData();
+            renderHistoryTable();
             
-            // Load last used values
-            const savedValues = JSON.parse(localStorage.getItem('myTestValues')) || {};
-            if (savedValues.totalQuestions) totalQuestionsInput.value = savedValues.totalQuestions;
-            if (savedValues.positiveMarks) positiveMarksInput.value = savedValues.positiveMarks;
-            if (savedValues.negativeMarks) negativeMarksInput.value = savedValues.negativeMarks;
-            if (savedValues.correctAnswers) correctAnswersInput.value = savedValues.correctAnswers;
-            if (savedValues.wrongAnswers) wrongAnswersInput.value = savedValues.wrongAnswers;
+            // Set up event listeners
+            document.getElementById('analyzeBtn').addEventListener('click', analyzePerformance);
+            document.getElementById('saveMockBtn').addEventListener('click', saveMockTest);
+            document.getElementById('compareBtn').addEventListener('click', showTopperComparison);
             
-            updateResults();
+            // Update unattempted automatically
+            ['correctAnswers', 'wrongAnswers', 'totalQuestions'].forEach(id => {
+                document.getElementById(id).addEventListener('input', updateUnattempted);
+            });
+            
+            // Exam selector buttons
+            document.querySelectorAll('.exam-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    document.querySelectorAll('.exam-btn').forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    // Update for different exams
+                    const exam = this.textContent;
+                    updateExamParameters(exam);
+                });
+            });
         });
-
-        // Save values to localStorage
-        function saveValues() {
-            const values = {
-                totalQuestions: totalQuestionsInput.value,
-                positiveMarks: positiveMarksInput.value,
-                negativeMarks: negativeMarksInput.value,
-                correctAnswers: correctAnswersInput.value,
-                wrongAnswers: wrongAnswersInput.value
+        
+        function updateExamParameters(exam) {
+            const params = {
+                'IBPS PO': { total: 100, marks: 200, cutoff: 70, duration: 60 },
+                'SBI PO': { total: 100, marks: 200, cutoff: 75, duration: 60 },
+                'RBI GRADE B': { total: 200, marks: 200, cutoff: 120, duration: 120 },
+                'IBPS CLERK': { total: 100, marks: 100, cutoff: 65, duration: 60 },
+                'SBI CLERK': { total: 100, marks: 100, cutoff: 68, duration: 60 },
+                'RRB PO': { total: 80, marks: 80, cutoff: 55, duration: 45 },
+                'NABARD': { total: 200, marks: 200, cutoff: 125, duration: 120 },
+                'LIC AAO': { total: 120, marks: 300, cutoff: 150, duration: 120 }
             };
-            localStorage.setItem('myTestValues', JSON.stringify(values));
+            
+            if (params[exam]) {
+                const p = params[exam];
+                document.getElementById('totalQuestions').value = p.total;
+                document.getElementById('totalMarks').value = p.marks;
+                document.getElementById('cutOff').value = p.cutoff;
+                document.getElementById('duration').value = p.duration;
+                updateUnattempted();
+                analyzePerformance();
+            }
         }
-
-        // Calculate score
-        function calculateScore(correct, wrong, total, posMarks, negMarks) {
-            const correctNum = parseInt(correct) || 0;
-            const wrongNum = parseInt(wrong) || 0;
-            const totalNum = parseInt(total) || 100;
-            const posMarksNum = parseFloat(posMarks) || 4;
-            const negMarksNum = parseFloat(negMarks) || 1;
-            
-            const attempted = correctNum + wrongNum;
-            const unattempted = totalNum - attempted;
-            const score = (correctNum * posMarksNum) - (wrongNum * negMarksNum);
-            const maxPossible = totalNum * posMarksNum;
-            const percentage = totalNum > 0 ? ((score / maxPossible) * 100).toFixed(2) : 0;
-            const accuracy = attempted > 0 ? ((correctNum / attempted) * 100).toFixed(2) : 0;
-            const completion = totalNum > 0 ? ((attempted / totalNum) * 100).toFixed(2) : 0;
-            
-            return {
-                attempted,
-                unattempted,
-                score,
-                maxPossible,
-                percentage,
-                accuracy,
-                completion,
-                grade: calculateGrade(percentage)
-            };
+        
+        function updateUnattempted() {
+            const total = parseInt(document.getElementById('totalQuestions').value) || 0;
+            const correct = parseInt(document.getElementById('correctAnswers').value) || 0;
+            const wrong = parseInt(document.getElementById('wrongAnswers').value) || 0;
+            const unattempted = total - (correct + wrong);
+            document.getElementById('unattempted').value = Math.max(0, unattempted);
         }
-
-        // Calculate grade
-        function calculateGrade(percentage) {
-            const perc = parseFloat(percentage);
-            if (perc >= 90) return 'A+';
-            if (perc >= 80) return 'A';
-            if (perc >= 70) return 'B+';
-            if (perc >= 60) return 'B';
-            if (perc >= 50) return 'C';
-            if (perc >= 40) return 'D';
-            if (perc >= 33) return 'E';
-            return 'F';
-        }
-
-        // Update results display
-        function updateResults() {
-            saveValues();
+        
+        function analyzePerformance() {
+            // Get input values
+            const total = parseInt(document.getElementById('totalQuestions').value) || 100;
+            const correct = parseInt(document.getElementById('correctAnswers').value) || 0;
+            const wrong = parseInt(document.getElementById('wrongAnswers').value) || 0;
+            const posMarks = parseFloat(document.getElementById('positiveMarks').value) || 1;
+            const negMarks = parseFloat(document.getElementById('negativeMarks').value) || 0.25;
+            const timeTaken = parseInt(document.getElementById('timeTaken').value) || 60;
+            const cutoff = parseInt(document.getElementById('cutOff').value) || 70;
             
-            const total = totalQuestionsInput.value;
-            const correct = correctAnswersInput.value;
-            const wrong = wrongAnswersInput.value;
-            const posMarks = positiveMarksInput.value;
-            const negMarks = negativeMarksInput.value;
+            // Calculations
+            const attempted = correct + wrong;
+            const unattempted = total - attempted;
+            const score = (correct * posMarks) - (wrong * negMarks);
+            const percentage = ((score / total) * 100).toFixed(2);
+            const accuracy = attempted > 0 ? ((correct / attempted) * 100).toFixed(2) : 0;
+            const speed = timeTaken > 0 ? (attempted / timeTaken).toFixed(2) : 0;
+            const safetyMargin = ((score - cutoff) / cutoff * 100).toFixed(2);
             
-            const results = calculateScore(correct, wrong, total, posMarks, negMarks);
-            
-            totalScoreEl.textContent = results.score;
-            percentageEl.textContent = `${results.percentage}%`;
-            gradeEl.textContent = results.grade;
-            attemptedEl.textContent = results.attempted;
-            unattemptedEl.textContent = results.unattempted;
+            // Update UI
+            document.getElementById('totalScore').textContent = score.toFixed(2);
+            document.getElementById('percentage').textContent = `${percentage}%`;
+            document.getElementById('rank').textContent = `#${calculateRank(score)}`;
+            document.getElementById('grade').textContent = calculateGrade(percentage);
             
             // Update progress bars
-            accuracyBar.style.width = `${results.accuracy}%`;
-            accuracyText.textContent = `${results.accuracy}%`;
-            completionBar.style.width = `${results.completion}%`;
-            completionText.textContent = `${results.completion}%`;
+            document.getElementById('accuracyValue').textContent = `${accuracy}%`;
+            document.getElementById('accuracyBar').style.width = `${accuracy}%`;
             
-            return results;
+            document.getElementById('speedValue').textContent = speed;
+            const optimalSpeed = total / (parseInt(document.getElementById('duration').value) || 60);
+            const speedPercent = Math.min(100, (speed / optimalSpeed) * 100);
+            document.getElementById('speedBar').style.width = `${speedPercent}%`;
+            
+            document.getElementById('safetyMargin').textContent = `${safetyMargin}%`;
+            const safetyPercent = Math.max(0, Math.min(100, parseFloat(safetyMargin) + 50));
+            document.getElementById('safetyBar').style.width = `${safetyPercent}%`;
+            
+            // Update section analysis
+            updateSectionAnalysis(correct, wrong, attempted);
+            
+            // Generate recommendations
+            generateRecommendations(score, accuracy, speed, safetyMargin);
+            
+            // Update charts
+            updateCharts(score, accuracy, speed);
+            
+            return { score, percentage, accuracy, speed, safetyMargin };
         }
-
-        // Save current test
-        function saveCurrentTest() {
-            const results = updateResults();
+        
+        function calculateRank(score) {
+            // Simulated rank calculation based on normal distribution
+            const maxScore = parseInt(document.getElementById('totalMarks').value) || 200;
+            const percentile = (score / maxScore) * 100;
             
-            const testName = prompt('Give this test a name (e.g., "Mock Test #1", "Physics Practice"):', 
-                `Test ${myTests.length + 1} - ${new Date().toLocaleDateString()}`);
+            if (percentile >= 95) return Math.floor(Math.random() * 50) + 1;
+            if (percentile >= 90) return Math.floor(Math.random() * 200) + 51;
+            if (percentile >= 80) return Math.floor(Math.random() * 1000) + 251;
+            if (percentile >= 70) return Math.floor(Math.random() * 5000) + 1251;
+            if (percentile >= 60) return Math.floor(Math.random() * 10000) + 6251;
+            return Math.floor(Math.random() * 50000) + 16251;
+        }
+        
+        function calculateGrade(percentage) {
+            const perc = parseFloat(percentage);
+            if (perc >= 90) return 'A++ (Excellent)';
+            if (perc >= 80) return 'A+ (Very Good)';
+            if (perc >= 70) return 'A (Good)';
+            if (perc >= 60) return 'B+ (Above Average)';
+            if (perc >= 50) return 'B (Average)';
+            if (perc >= 40) return 'C (Below Average)';
+            return 'D (Needs Improvement)';
+        }
+        
+        function updateSectionAnalysis(correct, wrong, attempted) {
+            const sectionGrid = document.querySelector('.section-grid');
+            sectionGrid.innerHTML = '';
+            
+            // Simulate section-wise performance
+            const sectionData = [
+                { name: 'Quantitative Aptitude', correct: Math.floor(correct * 0.4), attempted: Math.floor(attempted * 0.35) },
+                { name: 'Reasoning Ability', correct: Math.floor(correct * 0.35), attempted: Math.floor(attempted * 0.35) },
+                { name: 'English Language', correct: Math.floor(correct * 0.25), attempted: Math.floor(attempted * 0.30) },
+                { name: 'General Awareness', correct: Math.floor(correct * 0.0), attempted: 0 },
+                { name: 'Computer Knowledge', correct: Math.floor(correct * 0.0), attempted: 0 }
+            ];
+            
+            sectionData.forEach((section, index) => {
+                const accuracy = section.attempted > 0 ? ((section.correct / section.attempted) * 100).toFixed(1) : 0;
+                const speed = 1.2 + Math.random() * 0.8; // Simulated speed
+                
+                const card = document.createElement('div');
+                card.className = 'subject-card';
+                card.innerHTML = `
+                    <h4>${section.name}</h4>
+                    <div style="font-size: 2rem; color: var(--ibps-blue); margin: 10px 0;">
+                        ${accuracy}%
+                    </div>
+                    <div class="subject-stats">
+                        <div class="stat-item">
+                            <div class="stat-value">${section.correct}</div>
+                            <div class="stat-label">Correct</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value">${section.attempted - section.correct}</div>
+                            <div class="stat-label">Wrong</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value">${speed.toFixed(1)}</div>
+                            <div class="stat-label">Q/Min</div>
+                        </div>
+                    </div>
+                `;
+                sectionGrid.appendChild(card);
+            });
+        }
+        
+        function generateRecommendations(score, accuracy, speed, safetyMargin) {
+            const recommendations = [];
+            const total = parseInt(document.getElementById('totalQuestions').value);
+            const cutoff = parseInt(document.getElementById('cutOff').value);
+            
+            // Score-based recommendations
+            if (score < cutoff) {
+                recommendations.push('Focus on improving accuracy in high-weightage sections');
+                recommendations.push('Attempt more questions to reach the cut-off');
+            } else if (score < cutoff * 1.2) {
+                recommendations.push('Good score! Work on speed to attempt more questions');
+                recommendations.push('Focus on weaker sections to improve further');
+            } else {
+                recommendations.push('Excellent score! Maintain consistency');
+                recommendations.push('Work on time management for even better performance');
+            }
+            
+            // Accuracy recommendations
+            if (accuracy < 70) {
+                recommendations.push('Accuracy is low. Focus on quality over quantity');
+                recommendations.push('Review wrong answers and learn concepts');
+            } else if (accuracy < 85) {
+                recommendations.push('Good accuracy. Maintain this level');
+            } else {
+                recommendations.push('Excellent accuracy! Keep it up');
+            }
+            
+            // Speed recommendations
+            const optimalSpeed = total / (parseInt(document.getElementById('duration').value) || 60);
+            if (speed < optimalSpeed * 0.8) {
+                recommendations.push('Speed needs improvement. Practice timed tests');
+                recommendations.push('Learn shortcut methods for quantitative aptitude');
+            }
+            
+            // Safety margin recommendations
+            if (parseFloat(safetyMargin) < 10) {
+                recommendations.push('Low safety margin. Need to score higher');
+                recommendations.push('Focus on scoring sections first');
+            }
+            
+            // Random tips
+            const tips = [
+                'Practice previous year papers daily',
+                'Take mock tests every weekend',
+                'Review errors within 24 hours',
+                'Focus on weak areas identified by analytics',
+                'Maintain error log for revision',
+                'Improve reading speed for comprehension',
+                'Learn shortcut tricks for reasoning'
+            ];
+            
+            // Add random tips
+            for (let i = 0; i < 2; i++) {
+                const randomTip = tips[Math.floor(Math.random() * tips.length)];
+                if (!recommendations.includes(randomTip)) {
+                    recommendations.push(randomTip);
+                }
+            }
+            
+            // Update UI
+            const list = document.getElementById('recommendationsList');
+            list.innerHTML = '';
+            recommendations.forEach(rec => {
+                const li = document.createElement('li');
+                li.innerHTML = `<i class="fas fa-check-circle" style="color: var(--success-green);"></i> ${rec}`;
+                list.appendChild(li);
+            });
+        }
+        
+        function saveMockTest() {
+            const analysis = analyzePerformance();
+            const testName = prompt('Enter test name:', `IBPS PO Mock ${mockHistory.length + 1}`);
             
             if (!testName) return;
             
-            const test = {
+            const mockTest = {
                 id: Date.now(),
                 name: testName,
-                date: new Date().toISOString(),
-                total: parseInt(totalQuestionsInput.value),
-                correct: parseInt(correctAnswersInput.value),
-                wrong: parseInt(wrongAnswersInput.value),
-                posMarks: parseFloat(positiveMarksInput.value),
-                negMarks: parseFloat(negativeMarksInput.value),
-                score: results.score,
-                percentage: parseFloat(results.percentage),
-                grade: results.grade,
-                accuracy: parseFloat(results.accuracy),
-                completion: parseFloat(results.completion)
+                date: new Date().toLocaleDateString('en-IN'),
+                time: new Date().toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit' }),
+                score: parseFloat(analysis.score.toFixed(2)),
+                percentage: analysis.percentage,
+                rank: document.getElementById('rank').textContent,
+                accuracy: parseFloat(document.getElementById('accuracyValue').textContent),
+                timeTaken: document.getElementById('timeTaken').value,
+                status: analysis.score >= document.getElementById('cutOff').value ? 'PASS' : 'FAIL'
             };
             
-            myTests.unshift(test); // Add to beginning
-            saveToLocalStorage();
-            updateStats();
-            renderTestHistory();
-            updateChart();
+            mockHistory.unshift(mockTest);
+            localStorage.setItem('bankpoMockHistory', JSON.stringify(mockHistory));
+            renderHistoryTable();
             
-            alert('Test saved successfully!');
+            alert('Mock test saved successfully!');
         }
-
-        // Delete test
-        function deleteTest(testId) {
-            if (confirm('Delete this test record?')) {
-                myTests = myTests.filter(test => test.id !== testId);
-                saveToLocalStorage();
-                updateStats();
-                renderTestHistory();
-                updateChart();
-            }
-        }
-
-        // Render test history
-        function renderTestHistory() {
-            testHistoryEl.innerHTML = '';
+        
+        function renderHistoryTable() {
+            const tbody = document.getElementById('historyTableBody');
+            tbody.innerHTML = '';
             
-            if (myTests.length === 0) {
-                testHistoryEl.innerHTML = `
-                    <div class="test-item empty-history">
-                        <div><i class="fas fa-clipboard-list" style="font-size: 2rem; margin-bottom: 10px; display: block;"></i>
-                        No tests saved yet. Calculate and save your first test!</div>
-                    </div>
+            if (mockHistory.length === 0) {
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="8" style="text-align: center; padding: 3rem; color: #6C757D;">
+                            <i class="fas fa-history fa-3x" style="margin-bottom: 1rem; display: block;"></i>
+                            No mock tests saved yet. Analyze and save your first test!
+                        </td>
+                    </tr>
                 `;
                 return;
             }
             
-            myTests.slice(0, 10).forEach(test => {
-                const testDate = new Date(test.date).toLocaleDateString('en-US', {
-                    month: 'short',
-                    day: 'numeric',
-                    hour: '2-digit',
-                    minute: '2-digit'
-                });
+            mockHistory.forEach((test, index) => {
+                const row = document.createElement('tr');
                 
-                const testItem = document.createElement('div');
-                testItem.className = 'test-item';
-                testItem.innerHTML = `
-                    <div>
-                        <div class="test-date">${test.name}</div>
-                        <div style="font-size: 0.9rem; color: var(--gray);">${testDate}</div>
-                    </div>
-                    <div style="text-align: right;">
-                        <div class="test-score">${test.score} (${test.percentage}%)</div>
-                        <div style="font-size: 0.9rem; color: var(--gray);">
-                            ${test.correct}✓ ${test.wrong}✗ | Grade: ${test.grade}
-                        </div>
-                    </div>
-                    <button class="delete-test" onclick="deleteTest(${test.id})">
-                        <i class="fas fa-trash"></i>
-                    </button>
+                let rankBadge = '';
+                if (index === 0) rankBadge = `<span class="rank-badge rank-1">TOP</span>`;
+                else if (index === 1) rankBadge = `<span class="rank-badge rank-2">2nd</span>`;
+                else if (index === 2) rankBadge = `<span class="rank-badge rank-3">3rd</span>`;
+                
+                row.innerHTML = `
+                    <td>${test.date}<br><small>${test.time}</small></td>
+                    <td><strong>${test.name}</strong></td>
+                    <td><strong style="color: var(--ibps-blue);">${test.score}</strong></td>
+                    <td>${test.percentage}%</td>
+                    <td>${test.rank} ${rankBadge}</td>
+                    <td>${test.accuracy}%</td>
+                    <td>${test.timeTaken} min</td>
+                    <td>
+                        <span style="padding: 4px 12px; border-radius: 20px; font-weight: 600; 
+                              background: ${test.status === 'PASS' ? '#D4EDDA' : '#F8D7DA'}; 
+                              color: ${test.status === 'PASS' ? '#155724' : '#721C24'}">
+                            ${test.status}
+                        </span>
+                    </td>
                 `;
-                
-                testHistoryEl.appendChild(testItem);
+                tbody.appendChild(row);
             });
-            
-            if (myTests.length > 10) {
-                const moreItem = document.createElement('div');
-                moreItem.className = 'test-item';
-                moreItem.style.textAlign = 'center';
-                moreItem.innerHTML = `
-                    <div>... and ${myTests.length - 10} more tests</div>
-                `;
-                testHistoryEl.appendChild(moreItem);
-            }
         }
-
-        // Update statistics
-        function updateStats() {
-            totalTestsEl.textContent = myTests.length;
+        
+        function showTopperComparison() {
+            const currentScore = parseFloat(document.getElementById('totalScore').textContent) || 0;
+            const topperScores = [
+                { name: 'AIR 1 Last Year', score: currentScore * 1.3 },
+                { name: 'AIR 10 Average', score: currentScore * 1.2 },
+                { name: 'Your Score', score: currentScore },
+                { name: 'Cut-off Score', score: document.getElementById('cutOff').value },
+                { name: 'Average Score', score: currentScore * 0.8 }
+            ];
             
-            if (myTests.length === 0) {
-                avgScoreEl.textContent = '0';
-                bestScoreEl.textContent = '0';
-                avgAccuracyEl.textContent = '0%';
-                monthlyTestsEl.textContent = '0';
-                scoreTrendEl.textContent = '';
-                accuracyTrendEl.textContent = '';
-                return;
-            }
-            
-            // Average score
-            const totalScore = myTests.reduce((sum, test) => sum + test.score, 0);
-            const averageScore = (totalScore / myTests.length).toFixed(1);
-            avgScoreEl.textContent = averageScore;
-            
-            // Best score
-            const bestScore = Math.max(...myTests.map(t => t.score));
-            bestScoreEl.textContent = bestScore;
-            
-            // Average accuracy
-            const totalAccuracy = myTests.reduce((sum, test) => sum + test.accuracy, 0);
-            const averageAccuracy = (totalAccuracy / myTests.length).toFixed(1);
-            avgAccuracyEl.textContent = `${averageAccuracy}%`;
-            
-            // Tests this month
-            const currentMonth = new Date().getMonth();
-            const currentYear = new Date().getFullYear();
-            const monthlyTests = myTests.filter(test => {
-                const testDate = new Date(test.date);
-                return testDate.getMonth() === currentMonth && testDate.getFullYear() === currentYear;
-            }).length;
-            monthlyTestsEl.textContent = monthlyTests;
-            
-            // Score trend
-            if (myTests.length >= 2) {
-                const lastTest = myTests[0].score;
-                const prevTest = myTests[1].score;
-                const scoreDiff = lastTest - prevTest;
-                const trendIcon = scoreDiff >= 0 ? '↗' : '↘';
-                const trendColor = scoreDiff >= 0 ? '#28a745' : '#dc3545';
-                scoreTrendEl.innerHTML = `<span style="color: ${trendColor}">${trendIcon} ${Math.abs(scoreDiff)}</span> from last`;
-            }
-            
-            // Accuracy trend
-            if (myTests.length >= 2) {
-                const lastAcc = myTests[0].accuracy;
-                const prevAcc = myTests[1].accuracy;
-                const accDiff = (lastAcc - prevAcc).toFixed(1);
-                const trendIcon = accDiff >= 0 ? '↗' : '↘';
-                const trendColor = accDiff >= 0 ? '#28a745' : '#dc3545';
-                accuracyTrendEl.innerHTML = `<span style="color: ${trendColor}">${trendIcon} ${Math.abs(accDiff)}%</span> from last`;
-            }
+            updateComparisonChart(topperScores);
+            alert('Comparison with toppers displayed in chart below.');
         }
-
-        // Initialize Chart
-        function initializeChart() {
-            const ctx = document.getElementById('progressChart').getContext('2d');
-            progressChart = new Chart(ctx, {
+        
+        function initializeCharts() {
+            const accuracyCtx = document.getElementById('accuracyChart').getContext('2d');
+            accuracyChart = new Chart(accuracyCtx, {
                 type: 'line',
                 data: {
-                    labels: [],
+                    labels: ['Test 1', 'Test 2', 'Test 3', 'Test 4', 'Test 5', 'Test 6'],
                     datasets: [{
-                        label: 'Score Trend',
-                        data: [],
-                        borderColor: 'rgba(54, 162, 235, 1)',
-                        backgroundColor: 'rgba(54, 162, 235, 0.1)',
+                        label: 'Accuracy %',
+                        data: [65, 72, 68, 75, 78, 82],
+                        borderColor: 'rgba(0, 200, 83, 1)',
+                        backgroundColor: 'rgba(0, 200, 83, 0.1)',
                         borderWidth: 3,
                         fill: true,
-                        tension: 0.3
+                        tension: 0.4
                     }]
                 },
                 options: {
                     responsive: true,
                     maintainAspectRatio: false,
-                    scales: {
-                        y: {
-                            beginAtZero: false,
-                            title: {
-                                display: true,
-                                text: 'Score'
-                            }
-                        }
-                    },
                     plugins: {
-                        legend: {
-                            display: true,
-                            position: 'top'
-                        },
-                        title: {
-                            display: true,
-                            text: 'Your Progress Over Time',
-                            font: {
-                                size: 16
-                            }
-                        }
+                        legend: { display: true },
+                        tooltip: { mode: 'index', intersect: false }
+                    },
+                    scales: {
+                        y: { beginAtZero: false, min: 50, max: 100 }
                     }
                 }
             });
-            updateChart();
-        }
-
-        // Update chart with data
-        function updateChart() {
-            if (!progressChart || myTests.length === 0) return;
             
-            // Get last 10 tests for chart
-            const recentTests = myTests.slice(0, 10).reverse();
-            
-            progressChart.data.labels = recentTests.map(test => {
-                const date = new Date(test.date);
-                return `${date.getDate()}/${date.getMonth() + 1}`;
+            const speedCtx = document.getElementById('speedChart').getContext('2d');
+            speedChart = new Chart(speedCtx, {
+                type: 'bar',
+                data: {
+                    labels: ['Quant', 'Reasoning', 'English', 'GA', 'Computer'],
+                    datasets: [{
+                        label: 'Questions per Minute',
+                        data: [1.8, 2.1, 2.5, 3.0, 4.0],
+                        backgroundColor: [
+                            'rgba(0, 71, 171, 0.8)',
+                            'rgba(106, 13, 173, 0.8)',
+                            'rgba(220, 53, 69, 0.8)',
+                            'rgba(40, 167, 69, 0.8)',
+                            'rgba(255, 193, 7, 0.8)'
+                        ],
+                        borderColor: [
+                            'rgba(0, 71, 171, 1)',
+                            'rgba(106, 13, 173, 1)',
+                            'rgba(220, 53, 69, 1)',
+                            'rgba(40, 167, 69, 1)',
+                            'rgba(255, 193, 7, 1)'
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false }
+                    },
+                    scales: {
+                        y: { beginAtZero: true }
+                    }
+                }
             });
             
-            progressChart.data.datasets[0].data = recentTests.map(test => test.score);
-            
-            progressChart.update();
-        }
-
-        // Clear all history
-        function clearAllHistory() {
-            if (myTests.length === 0) {
-                alert('No test history to clear!');
-                return;
-            }
-            
-            if (confirm('Are you sure you want to delete ALL your test history? This cannot be undone.')) {
-                myTests = [];
-                saveToLocalStorage();
-                updateStats();
-                renderTestHistory();
-                updateChart();
-                alert('All test history cleared.');
-            }
-        }
-
-        // Export data
-        function exportData() {
-            if (myTests.length === 0) {
-                alert('No test data to export!');
-                return;
-            }
-            
-            // Create CSV content
-            let csv = 'Test Name,Date,Total Questions,Correct,Wrong,Score,Percentage,Grade,Accuracy,Completion\n';
-            
-            myTests.forEach(test => {
-                const date = new Date(test.date).toLocaleDateString();
-                csv += `"${test.name}",${date},${test.total},${test.correct},${test.wrong},${test.score},${test.percentage},${test.grade},${test.accuracy},${test.completion}\n`;
+            const comparisonCtx = document.getElementById('comparisonChart').getContext('2d');
+            comparisonChart = new Chart(comparisonCtx, {
+                type: 'bar',
+                data: {
+                    labels: ['AIR 1', 'AIR 10', 'You', 'Cut-off', 'Average'],
+                    datasets: [{
+                        label: 'Score Comparison',
+                        data: [185, 165, 0, 70, 95],
+                        backgroundColor: 'rgba(0, 71, 171, 0.7)',
+                        borderColor: 'rgba(0, 71, 171, 1)',
+                        borderWidth: 2
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false },
+                        datalabels: {
+                            color: '#fff',
+                            font: { weight: 'bold' },
+                            formatter: function(value) {
+                                return value;
+                            }
+                        }
+                    },
+                    scales: {
+                        y: { beginAtZero: true, title: { display: true, text: 'Marks' } }
+                    }
+                }
             });
-            
-            // Add summary
-            csv += '\n\nSUMMARY\n';
-            csv += `Total Tests,${myTests.length}\n`;
-            csv += `Average Score,${avgScoreEl.textContent}\n`;
-            csv += `Best Score,${bestScoreEl.textContent}\n`;
-            csv += `Average Accuracy,${avgAccuracyEl.textContent}\n`;
-            
-            // Create download link
-            const blob = new Blob([csv], { type: 'text/csv' });
-            const url = window.URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = `my-mock-test-history-${new Date().toISOString().slice(0,10)}.csv`;
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-            window.URL.revokeObjectURL(url);
         }
-
-        // Save to localStorage
-        function saveToLocalStorage() {
-            localStorage.setItem('myMockTests', JSON.stringify(myTests));
-        }
-
-        // Event Listeners
-        calculateBtn.addEventListener('click', updateResults);
-        saveTestBtn.addEventListener('click', saveCurrentTest);
-        clearHistoryBtn.addEventListener('click', clearAllHistory);
-        exportDataBtn.addEventListener('click', exportData);
-
-        // Update results when inputs change
-        [totalQuestionsInput, correctAnswersInput, wrongAnswersInput, positiveMarksInput, negativeMarksInput]
-            .forEach(input => {
-                input.addEventListener('input', updateResults);
-            });
-
-        // Keyboard shortcuts
-        document.addEventListener('keydown', (e) => {
-            // Ctrl + Enter to calculate
-            if (e.ctrlKey && e.key === 'Enter') {
-                e.preventDefault();
-                updateResults();
+        
+        function updateCharts(score, accuracy, speed) {
+            // Update accuracy chart with new data point
+            if (accuracyChart) {
+                const newLabel = `Test ${accuracyChart.data.labels.length + 1}`;
+                accuracyChart.data.labels.push(newLabel);
+                accuracyChart.data.datasets[0].data.push(parseFloat(accuracy));
+                
+                // Keep only last 6 points
+                if (accuracyChart.data.labels.length > 6) {
+                    accuracyChart.data.labels.shift();
+                    accuracyChart.data.datasets[0].data.shift();
+                }
+                
+                accuracyChart.update();
             }
             
-            // Ctrl + S to save
-            if (e.ctrlKey && e.key === 's') {
-                e.preventDefault();
-                saveCurrentTest();
+            // Update comparison chart with current score
+            if (comparisonChart) {
+                comparisonChart.data.datasets[0].data[2] = score;
+                comparisonChart.update();
             }
-        });
-
-        // Add sample data for first-time users
-        if (myTests.length === 0) {
-            const shouldAddSamples = confirm('Welcome! Would you like to add some sample test data to see how it works?');
-            if (shouldAddSamples) {
+        }
+        
+        function updateComparisonChart(topperScores) {
+            if (comparisonChart) {
+                comparisonChart.data.labels = topperScores.map(t => t.name);
+                comparisonChart.data.datasets[0].data = topperScores.map(t => t.score);
+                comparisonChart.update();
+            }
+        }
+        
+        function loadSampleData() {
+            if (mockHistory.length === 0) {
                 const sampleTests = [
                     {
                         id: 1,
-                        name: 'Physics Mock Test',
-                        date: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString(),
-                        total: 100,
-                        correct: 85,
-                        wrong: 10,
-                        posMarks: 4,
-                        negMarks: 1,
-                        score: 330,
-                        percentage: 82.5,
-                        grade: 'A',
-                        accuracy: 89.5,
-                        completion: 95
+                        name: 'IBPS PO Prelims Mock 1',
+                        date: '15/11/2026',
+                        time: '10:30 AM',
+                        score: 72.5,
+                        percentage: '72.50',
+                        rank: '#1245',
+                        accuracy: '78.4',
+                        timeTaken: 55,
+                        status: 'PASS'
                     },
                     {
                         id: 2,
-                        name: 'Chemistry Practice',
-                        date: new Date(Date.now() - 5 * 24 * 60 * 60 * 1000).toISOString(),
-                        total: 100,
-                        correct: 78,
-                        wrong: 12,
-                        posMarks: 4,
-                        negMarks: 1,
-                        score: 300,
-                        percentage: 75.0,
-                        grade: 'B+',
-                        accuracy: 86.7,
-                        completion: 90
+                        name: 'Quant Special Test',
+                        date: '10/11/2026',
+                        time: '02:15 PM',
+                        score: 68.75,
+                        percentage: '68.75',
+                        rank: '#2341',
+                        accuracy: '75.2',
+                        timeTaken: 50,
+                        status: 'PASS'
                     },
                     {
                         id: 3,
-                        name: 'Math Final Test',
-                        date: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000).toISOString(),
-                        total: 100,
-                        correct: 92,
-                        wrong: 5,
-                        posMarks: 4,
-                        negMarks: 1,
-                        score: 363,
-                        percentage: 90.8,
-                        grade: 'A+',
-                        accuracy: 94.8,
-                        completion: 97
+                        name: 'Full Length Test 3',
+                        date: '05/11/2026',
+                        time: '09:00 AM',
+                        score: 62.25,
+                        percentage: '62.25',
+                        rank: '#4567',
+                        accuracy: '71.8',
+                        timeTaken: 58,
+                        status: 'FAIL'
                     }
                 ];
                 
-                myTests = sampleTests;
-                saveToLocalStorage();
-                updateStats();
-                renderTestHistory();
-                updateChart();
+                mockHistory = sampleTests;
+                localStorage.setItem('bankpoMockHistory', JSON.stringify(mockHistory));
+                renderHistoryTable();
             }
+            
+            // Initial analysis
+            analyzePerformance();
         }
+        
+        // Keyboard shortcuts
+        document.addEventListener('keydown', function(e) {
+            // Ctrl + A for Analyze
+            if (e.ctrlKey && e.key === 'a') {
+                e.preventDefault();
+                analyzePerformance();
+            }
+            
+            // Ctrl + S for Save
+            if (e.ctrlKey && e.key === 's') {
+                e.preventDefault();
+                saveMockTest();
+            }
+            
+            // Ctrl + C for Compare
+            if (e.ctrlKey && e.key === 'c') {
+                e.preventDefault();
+                showTopperComparison();
+            }
+        });
+        
+        // Add floating action button
+        const fab = document.createElement('button');
+        fab.innerHTML = '<i class="fas fa-bolt"></i>';
+        fab.style.cssText = `
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--ibps-blue), var(--premium-purple));
+            color: white;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            box-shadow: 0 8px 25px rgba(0, 71, 171, 0.4);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+        `;
+        fab.onmouseenter = () => fab.style.transform = 'scale(1.1)';
+        fab.onmouseleave = () => fab.style.transform = 'scale(1)';
+        fab.onclick = () => {
+            analyzePerformance();
+            alert('Performance Analyzed! Check your detailed report.');
+        };
+        document.body.appendChild(fab);
     </script>
 </body>
 </html>
