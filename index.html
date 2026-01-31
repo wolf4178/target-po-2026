@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mock Test Scoring System</title>
+    <title>My Personal Mock Test Tracker</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
@@ -33,7 +33,7 @@
         }
 
         .container {
-            max-width: 1400px;
+            max-width: 1200px;
             margin: 0 auto;
             background: white;
             border-radius: 20px;
@@ -44,41 +44,34 @@
         header {
             background: linear-gradient(135deg, var(--primary), var(--secondary));
             color: white;
-            padding: 2rem;
-            text-align: center;
+            padding: 1.5rem 2rem;
         }
 
-        header h1 {
-            font-size: 2.5rem;
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .header-left h1 {
+            font-size: 2rem;
             margin-bottom: 0.5rem;
             display: flex;
             align-items: center;
-            justify-content: center;
             gap: 15px;
         }
 
-        .subtitle {
-            font-size: 1.1rem;
+        .header-left p {
             opacity: 0.9;
-            margin-bottom: 0.5rem;
         }
 
-        .github-link {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            color: white;
-            text-decoration: none;
-            background: rgba(255,255,255,0.1);
-            padding: 8px 16px;
-            border-radius: 20px;
-            margin-top: 10px;
-            transition: all 0.3s;
-        }
-
-        .github-link:hover {
-            background: rgba(255,255,255,0.2);
-            transform: translateY(-2px);
+        .test-counter {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 10px 20px;
+            border-radius: 10px;
+            font-size: 1.2rem;
         }
 
         .main-content {
@@ -87,45 +80,41 @@
             gap: 2rem;
         }
 
-        .dashboard {
+        .dashboard-cards {
             display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 2rem;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
         }
 
-        @media (max-width: 1024px) {
-            .dashboard {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        .scoring-form {
-            background: #f8f9fa;
-            padding: 2rem;
+        .card {
+            background: white;
             border-radius: 15px;
+            padding: 1.5rem;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
             border: 2px solid #e9ecef;
         }
 
-        .scoring-form h2 {
+        .card h2 {
             color: var(--primary);
             margin-bottom: 1.5rem;
             display: flex;
             align-items: center;
             gap: 10px;
+            font-size: 1.3rem;
         }
 
-        .form-group {
+        .input-group {
             margin-bottom: 1.2rem;
         }
 
-        .form-group label {
+        .input-group label {
             display: block;
             margin-bottom: 0.5rem;
             font-weight: 600;
             color: var(--dark);
         }
 
-        .form-group input {
+        .input-group input {
             width: 100%;
             padding: 12px;
             border: 2px solid #dee2e6;
@@ -134,12 +123,12 @@
             transition: border-color 0.3s;
         }
 
-        .form-group input:focus {
+        .input-group input:focus {
             outline: none;
             border-color: var(--primary);
         }
 
-        .btn-primary, .btn-secondary, .btn-success, .btn-warning {
+        .btn {
             padding: 12px 24px;
             border: none;
             border-radius: 8px;
@@ -162,20 +151,10 @@
             transform: translateY(-2px);
         }
 
-        .btn-secondary {
-            background: var(--gray);
-            color: white;
-            margin-right: 10px;
-        }
-
-        .btn-secondary:hover {
-            background: #5a6268;
-            transform: translateY(-2px);
-        }
-
         .btn-success {
             background: #28a745;
             color: white;
+            margin-left: 10px;
         }
 
         .btn-success:hover {
@@ -193,54 +172,34 @@
             transform: translateY(-2px);
         }
 
-        .results-section {
-            background: white;
-            padding: 2rem;
-            border-radius: 15px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-        }
-
         .results-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 1.5rem;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
             margin: 1.5rem 0;
         }
 
-        .result-card {
-            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
-            padding: 1.5rem;
-            border-radius: 10px;
+        .result-item {
             text-align: center;
-            border: 2px solid transparent;
-            transition: all 0.3s;
+            padding: 1rem;
+            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+            border-radius: 10px;
         }
 
-        .result-card:hover {
-            border-color: var(--primary);
-            transform: translateY(-5px);
-        }
-
-        .result-card h3 {
+        .result-item h3 {
             color: var(--gray);
-            font-size: 1rem;
+            font-size: 0.9rem;
             margin-bottom: 0.5rem;
         }
 
-        .result-card .score {
-            font-size: 2rem;
+        .result-value {
+            font-size: 1.8rem;
             font-weight: bold;
             color: var(--primary);
         }
 
-        .analysis {
-            margin-top: 2rem;
-            padding-top: 2rem;
-            border-top: 2px solid #f1f3f4;
-        }
-
-        .progress-bars {
-            margin-top: 1rem;
+        .progress-container {
+            margin: 1.5rem 0;
         }
 
         .progress-item {
@@ -258,7 +217,6 @@
             background: #e9ecef;
             border-radius: 10px;
             overflow: hidden;
-            margin-bottom: 0.5rem;
         }
 
         .progress-fill {
@@ -268,87 +226,92 @@
             transition: width 1s ease;
         }
 
-        .chart-container {
-            margin-top: 2rem;
-            height: 300px;
-        }
-
-        .multiple-students {
-            background: white;
+        .grade-display {
+            text-align: center;
             padding: 2rem;
-            border-radius: 15px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-            margin-top: 2rem;
-        }
-
-        .table-container {
-            overflow-x: auto;
-            margin: 1.5rem 0;
-            border-radius: 10px;
-            border: 1px solid #dee2e6;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            min-width: 800px;
-        }
-
-        thead {
             background: linear-gradient(135deg, var(--primary), var(--secondary));
             color: white;
+            border-radius: 10px;
+            margin: 1rem 0;
         }
 
-        th, td {
+        .grade-display h3 {
+            font-size: 1rem;
+            margin-bottom: 0.5rem;
+            opacity: 0.9;
+        }
+
+        .grade-value {
+            font-size: 3rem;
+            font-weight: bold;
+        }
+
+        .history-section {
+            margin-top: 2rem;
+        }
+
+        .chart-container {
+            height: 300px;
+            margin: 1rem 0;
+        }
+
+        .test-list {
+            max-height: 300px;
+            overflow-y: auto;
+            margin-top: 1rem;
+            border: 1px solid #dee2e6;
+            border-radius: 10px;
+        }
+
+        .test-item {
             padding: 1rem;
-            text-align: left;
             border-bottom: 1px solid #dee2e6;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
 
-        tbody tr:nth-child(even) {
-            background-color: #f8f9fa;
+        .test-item:last-child {
+            border-bottom: none;
         }
 
-        tbody tr:hover {
-            background-color: #e9ecef;
+        .test-item:hover {
+            background: #f8f9fa;
         }
 
-        .delete-btn {
+        .test-date {
+            font-weight: bold;
+            color: var(--primary);
+        }
+
+        .test-score {
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+
+        .delete-test {
             background: var(--danger);
             color: white;
             border: none;
-            padding: 8px 12px;
+            padding: 5px 10px;
             border-radius: 5px;
             cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 5px;
-            font-size: 0.9rem;
+            font-size: 0.8rem;
         }
 
-        .delete-btn:hover {
-            background: #d11450;
-        }
-
-        .student-actions {
-            display: flex;
-            gap: 8px;
-            flex-wrap: wrap;
-        }
-
-        .quick-stats {
+        .stats-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
             gap: 1rem;
-            margin-top: 1rem;
+            margin-top: 1.5rem;
         }
 
         .stat-card {
             background: white;
             padding: 1rem;
-            border-radius: 8px;
-            border: 1px solid #dee2e6;
+            border-radius: 10px;
             text-align: center;
+            border: 2px solid #e9ecef;
         }
 
         .stat-card h4 {
@@ -357,10 +320,16 @@
             margin-bottom: 0.5rem;
         }
 
-        .stat-card .value {
+        .stat-value {
             font-size: 1.5rem;
             font-weight: bold;
             color: var(--primary);
+        }
+
+        .stat-change {
+            font-size: 0.8rem;
+            color: var(--gray);
+            margin-top: 0.5rem;
         }
 
         footer {
@@ -371,36 +340,6 @@
             border-top: 2px solid #e9ecef;
         }
 
-        footer i {
-            color: var(--danger);
-            margin: 0 5px;
-        }
-
-        .instructions {
-            background: #fff8e1;
-            padding: 1rem;
-            border-radius: 10px;
-            margin: 1rem 0;
-            border-left: 4px solid var(--warning);
-        }
-
-        .instructions h3 {
-            color: var(--warning);
-            margin-bottom: 0.5rem;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .instructions ul {
-            padding-left: 1.5rem;
-        }
-
-        .instructions li {
-            margin-bottom: 0.5rem;
-        }
-
-        /* Responsive Design */
         @media (max-width: 768px) {
             .container {
                 margin: 10px;
@@ -411,38 +350,17 @@
                 padding: 1rem;
             }
             
-            .results-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-            
-            header h1 {
-                font-size: 1.8rem;
-                flex-direction: column;
-                gap: 10px;
-            }
-            
-            th, td {
-                padding: 0.5rem;
-                font-size: 0.9rem;
-            }
-            
-            .btn-primary, .btn-secondary, .btn-success, .btn-warning {
-                padding: 10px 15px;
-                font-size: 0.9rem;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .results-grid {
+            .dashboard-cards {
                 grid-template-columns: 1fr;
             }
             
-            header h1 {
-                font-size: 1.5rem;
+            .header-content {
+                flex-direction: column;
+                text-align: center;
             }
             
-            .dashboard {
-                gap: 1rem;
+            .results-grid {
+                grid-template-columns: repeat(2, 1fr);
             }
         }
     </style>
@@ -450,193 +368,166 @@
 <body>
     <div class="container">
         <header>
-            <h1><i class="fas fa-chart-line"></i> Mock Test Scoring System</h1>
-            <p class="subtitle">Calculate scores, analyze performance, and manage student results</p>
-            <a href="https://github.com" target="_blank" class="github-link">
-                <i class="fab fa-github"></i> View on GitHub
-            </a>
+            <div class="header-content">
+                <div class="header-left">
+                    <h1><i class="fas fa-user-graduate"></i> My Mock Test Tracker</h1>
+                    <p>Track your progress and improve your scores</p>
+                </div>
+                <div class="test-counter">
+                    <i class="fas fa-chart-line"></i> 
+                    Tests Taken: <span id="totalTests">0</span>
+                </div>
+            </div>
         </header>
 
         <div class="main-content">
-            <div class="instructions">
-                <h3><i class="fas fa-info-circle"></i> How to Use</h3>
-                <ul>
-                    <li>Enter test parameters and answers to calculate scores</li>
-                    <li>Add multiple students using the "Add Student" button</li>
-                    <li>Export data to Excel for further analysis</li>
-                    <li>Data is automatically saved in your browser</li>
-                </ul>
-            </div>
-
-            <div class="dashboard">
-                <!-- Scoring Form -->
-                <section class="scoring-form">
-                    <h2><i class="fas fa-calculator"></i> Test Parameters</h2>
-                    <div class="form-group">
-                        <label for="totalQuestions"><i class="fas fa-list-ol"></i> Total Questions:</label>
+            <div class="dashboard-cards">
+                <!-- Scoring Card -->
+                <div class="card">
+                    <h2><i class="fas fa-calculator"></i> Score Calculator</h2>
+                    
+                    <div class="input-group">
+                        <label><i class="fas fa-list-ol"></i> Total Questions:</label>
                         <input type="number" id="totalQuestions" min="1" value="100">
                     </div>
-                    <div class="form-group">
-                        <label for="positiveMarks"><i class="fas fa-plus-circle"></i> Positive Marks per Question:</label>
+                    
+                    <div class="input-group">
+                        <label><i class="fas fa-plus-circle"></i> Positive Marks:</label>
                         <input type="number" id="positiveMarks" min="0" step="0.25" value="4">
                     </div>
-                    <div class="form-group">
-                        <label for="negativeMarks"><i class="fas fa-minus-circle"></i> Negative Marks per Question:</label>
+                    
+                    <div class="input-group">
+                        <label><i class="fas fa-minus-circle"></i> Negative Marks:</label>
                         <input type="number" id="negativeMarks" min="0" step="0.25" value="1">
                     </div>
                     
-                    <h2 style="margin-top: 2rem;"><i class="fas fa-user-edit"></i> Student Answers</h2>
-                    <div class="form-group">
-                        <label for="correctAnswers"><i class="fas fa-check-circle"></i> Correct Answers:</label>
+                    <div class="input-group">
+                        <label><i class="fas fa-check-circle"></i> Correct Answers:</label>
                         <input type="number" id="correctAnswers" min="0" value="75">
                     </div>
-                    <div class="form-group">
-                        <label for="wrongAnswers"><i class="fas fa-times-circle"></i> Wrong Answers:</label>
+                    
+                    <div class="input-group">
+                        <label><i class="fas fa-times-circle"></i> Wrong Answers:</label>
                         <input type="number" id="wrongAnswers" min="0" value="15">
                     </div>
                     
-                    <button id="calculateBtn" class="btn-primary">
+                    <button id="calculateBtn" class="btn btn-primary">
                         <i class="fas fa-calculator"></i> Calculate Score
                     </button>
-                    <button id="resetBtn" class="btn-warning">
-                        <i class="fas fa-redo"></i> Reset
+                    
+                    <button id="saveTestBtn" class="btn btn-success">
+                        <i class="fas fa-save"></i> Save This Test
                     </button>
-                </section>
+                </div>
 
-                <!-- Results Section -->
-                <section class="results-section">
-                    <h2><i class="fas fa-chart-bar"></i> Results Dashboard</h2>
+                <!-- Results Card -->
+                <div class="card">
+                    <h2><i class="fas fa-chart-bar"></i> Current Test Results</h2>
+                    
                     <div class="results-grid">
-                        <div class="result-card">
-                            <h3>Total Score</h3>
-                            <p id="totalScore" class="score">0</p>
+                        <div class="result-item">
+                            <h3>Score</h3>
+                            <div id="totalScore" class="result-value">0</div>
                         </div>
-                        <div class="result-card">
+                        <div class="result-item">
                             <h3>Percentage</h3>
-                            <p id="percentage" class="score">0%</p>
+                            <div id="percentage" class="result-value">0%</div>
                         </div>
-                        <div class="result-card">
-                            <h3>Grade</h3>
-                            <p id="grade" class="score">-</p>
-                        </div>
-                        <div class="result-card">
+                        <div class="result-item">
                             <h3>Attempted</h3>
-                            <p id="attempted" class="score">0</p>
+                            <div id="attempted" class="result-value">0</div>
+                        </div>
+                        <div class="result-item">
+                            <h3>Unattempted</h3>
+                            <div id="unattempted" class="result-value">0</div>
                         </div>
                     </div>
-
-                    <!-- Performance Analysis -->
-                    <div class="analysis">
-                        <h3><i class="fas fa-chart-pie"></i> Performance Analysis</h3>
-                        <div class="progress-bars">
-                            <div class="progress-item">
-                                <label>Accuracy Rate</label>
-                                <div class="progress-bar">
-                                    <div id="accuracyBar" class="progress-fill"></div>
-                                </div>
-                                <span id="accuracyText">0%</span>
-                            </div>
-                            <div class="progress-item">
-                                <label>Test Completion</label>
-                                <div class="progress-bar">
-                                    <div id="completionBar" class="progress-fill"></div>
-                                </div>
-                                <span id="completionText">0%</span>
+                    
+                    <div class="grade-display">
+                        <h3>Your Grade</h3>
+                        <div id="grade" class="grade-value">-</div>
+                    </div>
+                    
+                    <div class="progress-container">
+                        <div class="progress-item">
+                            <label>Accuracy: <span id="accuracyText">0%</span></label>
+                            <div class="progress-bar">
+                                <div id="accuracyBar" class="progress-fill"></div>
                             </div>
                         </div>
                         
-                        <!-- Quick Stats -->
-                        <div class="quick-stats">
-                            <div class="stat-card">
-                                <h4>Unattempted</h4>
-                                <div id="unattempted" class="value">0</div>
-                            </div>
-                            <div class="stat-card">
-                                <h4>Net Score</h4>
-                                <div id="netScore" class="value">0</div>
-                            </div>
-                            <div class="stat-card">
-                                <h4>Max Possible</h4>
-                                <div id="maxPossible" class="value">0</div>
-                            </div>
-                            <div class="stat-card">
-                                <h4>Accuracy</h4>
-                                <div id="accuracyValue" class="value">0%</div>
+                        <div class="progress-item">
+                            <label>Completion: <span id="completionText">0%</span></label>
+                            <div class="progress-bar">
+                                <div id="completionBar" class="progress-fill"></div>
                             </div>
                         </div>
                     </div>
-                </section>
+                </div>
             </div>
 
-            <!-- Chart Section -->
-            <section class="multiple-students">
-                <h2><i class="fas fa-chart-line"></i> Performance Chart</h2>
+            <!-- Stats Card -->
+            <div class="card">
+                <h2><i class="fas fa-chart-pie"></i> Your Performance Statistics</h2>
+                
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <h4>Average Score</h4>
+                        <div id="avgScore" class="stat-value">0</div>
+                        <div id="scoreTrend" class="stat-change"></div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <h4>Best Score</h4>
+                        <div id="bestScore" class="stat-value">0</div>
+                        <div class="stat-change">Keep it up!</div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <h4>Average Accuracy</h4>
+                        <div id="avgAccuracy" class="stat-value">0%</div>
+                        <div id="accuracyTrend" class="stat-change"></div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <h4>Tests This Month</h4>
+                        <div id="monthlyTests" class="stat-value">0</div>
+                        <div class="stat-change">Current month</div>
+                    </div>
+                </div>
+                
                 <div class="chart-container">
-                    <canvas id="performanceChart"></canvas>
+                    <canvas id="progressChart"></canvas>
                 </div>
-            </section>
+            </div>
 
-            <!-- Multiple Students Section -->
-            <section class="multiple-students">
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
-                    <h2><i class="fas fa-users"></i> Student Management</h2>
-                    <div>
-                        <button id="addStudentBtn" class="btn-secondary">
-                            <i class="fas fa-user-plus"></i> Add Student
-                        </button>
-                        <button id="exportBtn" class="btn-success">
-                            <i class="fas fa-file-excel"></i> Export to Excel
-                        </button>
-                        <button id="clearAllBtn" class="btn-warning">
-                            <i class="fas fa-trash-alt"></i> Clear All
-                        </button>
+            <!-- Test History -->
+            <div class="card">
+                <h2><i class="fas fa-history"></i> Test History</h2>
+                
+                <div class="test-list" id="testHistory">
+                    <!-- Test items will be added here -->
+                    <div class="test-item empty-history">
+                        <div>No tests saved yet. Calculate and save your first test!</div>
                     </div>
                 </div>
-
-                <div class="table-container">
-                    <table id="studentsTable">
-                        <thead>
-                            <tr>
-                                <th>Student Name</th>
-                                <th>Correct</th>
-                                <th>Wrong</th>
-                                <th>Score</th>
-                                <th>Percentage</th>
-                                <th>Grade</th>
-                                <th>Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody id="studentsTableBody">
-                            <!-- Rows will be added here -->
-                        </tbody>
-                    </table>
+                
+                <div style="margin-top: 1rem; text-align: center;">
+                    <button id="clearHistoryBtn" class="btn btn-warning">
+                        <i class="fas fa-trash-alt"></i> Clear All History
+                    </button>
+                    
+                    <button id="exportDataBtn" class="btn btn-success">
+                        <i class="fas fa-file-export"></i> Export My Data
+                    </button>
                 </div>
-
-                <div class="quick-stats" style="margin-top: 2rem;">
-                    <div class="stat-card">
-                        <h4>Total Students</h4>
-                        <div id="totalStudents" class="value">0</div>
-                    </div>
-                    <div class="stat-card">
-                        <h4>Class Average</h4>
-                        <div id="classAverage" class="value">0%</div>
-                    </div>
-                    <div class="stat-card">
-                        <h4>Top Score</h4>
-                        <div id="topScore" class="value">0</div>
-                    </div>
-                    <div class="stat-card">
-                        <h4>Pass Rate</h4>
-                        <div id="passRate" class="value">0%</div>
-                    </div>
-                </div>
-            </section>
+            </div>
         </div>
 
         <footer>
-            <p>Mock Test Scoring System &copy; 2024 | Made with <i class="fas fa-heart"></i> for educators and students</p>
+            <p>Personal Mock Test Tracker &copy; 2024 | Made for self-improvement</p>
             <p style="margin-top: 10px; font-size: 0.9rem;">
-                Save this page to your computer or deploy on GitHub Pages for permanent access
+                Your data is saved locally in your browser. Export regularly to keep backups!
             </p>
         </footer>
     </div>
@@ -649,10 +540,9 @@
         const positiveMarksInput = document.getElementById('positiveMarks');
         const negativeMarksInput = document.getElementById('negativeMarks');
         const calculateBtn = document.getElementById('calculateBtn');
-        const addStudentBtn = document.getElementById('addStudentBtn');
-        const exportBtn = document.getElementById('exportBtn');
-        const resetBtn = document.getElementById('resetBtn');
-        const clearAllBtn = document.getElementById('clearAllBtn');
+        const saveTestBtn = document.getElementById('saveTestBtn');
+        const clearHistoryBtn = document.getElementById('clearHistoryBtn');
+        const exportDataBtn = document.getElementById('exportDataBtn');
 
         // Results Elements
         const totalScoreEl = document.getElementById('totalScore');
@@ -660,38 +550,38 @@
         const gradeEl = document.getElementById('grade');
         const attemptedEl = document.getElementById('attempted');
         const unattemptedEl = document.getElementById('unattempted');
-        const netScoreEl = document.getElementById('netScore');
-        const maxPossibleEl = document.getElementById('maxPossible');
-        const accuracyValueEl = document.getElementById('accuracyValue');
         const accuracyBar = document.getElementById('accuracyBar');
         const accuracyText = document.getElementById('accuracyText');
         const completionBar = document.getElementById('completionBar');
         const completionText = document.getElementById('completionText');
 
         // Stats Elements
-        const totalStudentsEl = document.getElementById('totalStudents');
-        const classAverageEl = document.getElementById('classAverage');
-        const topScoreEl = document.getElementById('topScore');
-        const passRateEl = document.getElementById('passRate');
+        const totalTestsEl = document.getElementById('totalTests');
+        const avgScoreEl = document.getElementById('avgScore');
+        const bestScoreEl = document.getElementById('bestScore');
+        const avgAccuracyEl = document.getElementById('avgAccuracy');
+        const monthlyTestsEl = document.getElementById('monthlyTests');
+        const scoreTrendEl = document.getElementById('scoreTrend');
+        const accuracyTrendEl = document.getElementById('accuracyTrend');
 
-        // Table
-        const studentsTableBody = document.getElementById('studentsTableBody');
+        // History List
+        const testHistoryEl = document.getElementById('testHistory');
 
         // Chart
-        let performanceChart = null;
+        let progressChart = null;
 
-        // Store students data
-        let students = JSON.parse(localStorage.getItem('mockTestStudents')) || [];
+        // Store tests data
+        let myTests = JSON.parse(localStorage.getItem('myMockTests')) || [];
 
         // Initialize
         document.addEventListener('DOMContentLoaded', function() {
             updateResults();
-            renderStudentsTable();
-            updateClassStats();
+            updateStats();
+            renderTestHistory();
             initializeChart();
             
             // Load last used values
-            const savedValues = JSON.parse(localStorage.getItem('mockTestValues')) || {};
+            const savedValues = JSON.parse(localStorage.getItem('myTestValues')) || {};
             if (savedValues.totalQuestions) totalQuestionsInput.value = savedValues.totalQuestions;
             if (savedValues.positiveMarks) positiveMarksInput.value = savedValues.positiveMarks;
             if (savedValues.negativeMarks) negativeMarksInput.value = savedValues.negativeMarks;
@@ -710,10 +600,10 @@
                 correctAnswers: correctAnswersInput.value,
                 wrongAnswers: wrongAnswersInput.value
             };
-            localStorage.setItem('mockTestValues', JSON.stringify(values));
+            localStorage.setItem('myTestValues', JSON.stringify(values));
         }
 
-        // Calculate score for single student
+        // Calculate score
         function calculateScore(correct, wrong, total, posMarks, negMarks) {
             const correctNum = parseInt(correct) || 0;
             const wrongNum = parseInt(wrong) || 0;
@@ -741,7 +631,7 @@
             };
         }
 
-        // Calculate grade based on percentage
+        // Calculate grade
         function calculateGrade(percentage) {
             const perc = parseFloat(percentage);
             if (perc >= 90) return 'A+';
@@ -771,285 +661,213 @@
             gradeEl.textContent = results.grade;
             attemptedEl.textContent = results.attempted;
             unattemptedEl.textContent = results.unattempted;
-            netScoreEl.textContent = results.score;
-            maxPossibleEl.textContent = results.maxPossible;
-            accuracyValueEl.textContent = `${results.accuracy}%`;
             
             // Update progress bars
             accuracyBar.style.width = `${results.accuracy}%`;
             accuracyText.textContent = `${results.accuracy}%`;
             completionBar.style.width = `${results.completion}%`;
             completionText.textContent = `${results.completion}%`;
+            
+            return results;
         }
 
-        // Add student to table
-        function addStudent(name, correct, wrong) {
-            const total = totalQuestionsInput.value;
-            const posMarks = positiveMarksInput.value;
-            const negMarks = negativeMarksInput.value;
+        // Save current test
+        function saveCurrentTest() {
+            const results = updateResults();
             
-            const results = calculateScore(correct, wrong, total, posMarks, negMarks);
+            const testName = prompt('Give this test a name (e.g., "Mock Test #1", "Physics Practice"):', 
+                `Test ${myTests.length + 1} - ${new Date().toLocaleDateString()}`);
             
-            const student = {
+            if (!testName) return;
+            
+            const test = {
                 id: Date.now(),
-                name: name || `Student ${students.length + 1}`,
-                correct: parseInt(correct) || 0,
-                wrong: parseInt(wrong) || 0,
+                name: testName,
+                date: new Date().toISOString(),
+                total: parseInt(totalQuestionsInput.value),
+                correct: parseInt(correctAnswersInput.value),
+                wrong: parseInt(wrongAnswersInput.value),
+                posMarks: parseFloat(positiveMarksInput.value),
+                negMarks: parseFloat(negativeMarksInput.value),
                 score: results.score,
                 percentage: parseFloat(results.percentage),
                 grade: results.grade,
-                attempted: results.attempted,
-                unattempted: results.unattempted,
                 accuracy: parseFloat(results.accuracy),
-                timestamp: new Date().toISOString()
+                completion: parseFloat(results.completion)
             };
             
-            students.push(student);
+            myTests.unshift(test); // Add to beginning
             saveToLocalStorage();
-            renderStudentsTable();
-            updateClassStats();
+            updateStats();
+            renderTestHistory();
             updateChart();
+            
+            alert('Test saved successfully!');
         }
 
-        // Edit student
-        function editStudent(index) {
-            const student = students[index];
-            
-            const name = prompt('Edit student name:', student.name);
-            if (name === null) return;
-            
-            const correct = prompt('Edit correct answers:', student.correct);
-            if (correct === null) return;
-            
-            const wrong = prompt('Edit wrong answers:', student.wrong);
-            if (wrong === null) return;
-            
-            const total = totalQuestionsInput.value;
-            const posMarks = positiveMarksInput.value;
-            const negMarks = negativeMarksInput.value;
-            
-            const results = calculateScore(correct, wrong, total, posMarks, negMarks);
-            
-            students[index] = {
-                ...student,
-                name: name || student.name,
-                correct: parseInt(correct) || 0,
-                wrong: parseInt(wrong) || 0,
-                score: results.score,
-                percentage: parseFloat(results.percentage),
-                grade: results.grade,
-                attempted: results.attempted,
-                unattempted: results.unattempted,
-                accuracy: parseFloat(results.accuracy)
-            };
-            
-            saveToLocalStorage();
-            renderStudentsTable();
-            updateClassStats();
-            updateChart();
-        }
-
-        // Delete student
-        function deleteStudent(index) {
-            if (confirm('Are you sure you want to delete this student?')) {
-                students.splice(index, 1);
+        // Delete test
+        function deleteTest(testId) {
+            if (confirm('Delete this test record?')) {
+                myTests = myTests.filter(test => test.id !== testId);
                 saveToLocalStorage();
-                renderStudentsTable();
-                updateClassStats();
+                updateStats();
+                renderTestHistory();
                 updateChart();
             }
         }
 
-        // Render students table
-        function renderStudentsTable() {
-            studentsTableBody.innerHTML = '';
+        // Render test history
+        function renderTestHistory() {
+            testHistoryEl.innerHTML = '';
             
-            if (students.length === 0) {
-                const row = document.createElement('tr');
-                row.innerHTML = `
-                    <td colspan="7" style="text-align: center; padding: 2rem; color: var(--gray);">
-                        <i class="fas fa-users" style="font-size: 2rem; margin-bottom: 1rem; display: block;"></i>
-                        No students added yet. Click "Add Student" to begin.
-                    </td>
+            if (myTests.length === 0) {
+                testHistoryEl.innerHTML = `
+                    <div class="test-item empty-history">
+                        <div><i class="fas fa-clipboard-list" style="font-size: 2rem; margin-bottom: 10px; display: block;"></i>
+                        No tests saved yet. Calculate and save your first test!</div>
+                    </div>
                 `;
-                studentsTableBody.appendChild(row);
                 return;
             }
             
-            // Sort students by score (highest first)
-            const sortedStudents = [...students].sort((a, b) => b.score - a.score);
-            
-            sortedStudents.forEach((student, index) => {
-                const row = document.createElement('tr');
+            myTests.slice(0, 10).forEach(test => {
+                const testDate = new Date(test.date).toLocaleDateString('en-US', {
+                    month: 'short',
+                    day: 'numeric',
+                    hour: '2-digit',
+                    minute: '2-digit'
+                });
                 
-                // Add rank class for top 3
-                let rankClass = '';
-                if (index === 0) rankClass = 'style="background: linear-gradient(135deg, #fff3cd, #ffeaa7);"';
-                else if (index === 1) rankClass = 'style="background: linear-gradient(135deg, #e9ecef, #dee2e6);"';
-                else if (index === 2) rankClass = 'style="background: linear-gradient(135deg, #f8f9fa, #e9ecef);"';
-                
-                row.innerHTML = `
-                    <td ${rankClass}>
-                        <strong>${student.name}</strong>
-                        ${index < 3 ? `<span style="color: var(--warning); margin-left: 5px;">#${index + 1}</span>` : ''}
-                    </td>
-                    <td>${student.correct}</td>
-                    <td>${student.wrong}</td>
-                    <td><strong>${student.score}</strong></td>
-                    <td>${student.percentage}%</td>
-                    <td><span style="padding: 4px 8px; border-radius: 4px; background: ${getGradeColor(student.grade)}; color: white;">${student.grade}</span></td>
-                    <td>
-                        <div class="student-actions">
-                            <button class="delete-btn" onclick="editStudent(${students.findIndex(s => s.id === student.id)})" style="background: var(--warning);">
-                                <i class="fas fa-edit"></i> Edit
-                            </button>
-                            <button class="delete-btn" onclick="deleteStudent(${students.findIndex(s => s.id === student.id)})">
-                                <i class="fas fa-trash"></i> Delete
-                            </button>
+                const testItem = document.createElement('div');
+                testItem.className = 'test-item';
+                testItem.innerHTML = `
+                    <div>
+                        <div class="test-date">${test.name}</div>
+                        <div style="font-size: 0.9rem; color: var(--gray);">${testDate}</div>
+                    </div>
+                    <div style="text-align: right;">
+                        <div class="test-score">${test.score} (${test.percentage}%)</div>
+                        <div style="font-size: 0.9rem; color: var(--gray);">
+                            ${test.correct}✓ ${test.wrong}✗ | Grade: ${test.grade}
                         </div>
-                    </td>
+                    </div>
+                    <button class="delete-test" onclick="deleteTest(${test.id})">
+                        <i class="fas fa-trash"></i>
+                    </button>
                 `;
                 
-                studentsTableBody.appendChild(row);
+                testHistoryEl.appendChild(testItem);
             });
-        }
-
-        // Get color for grade
-        function getGradeColor(grade) {
-            switch(grade) {
-                case 'A+': return '#28a745';
-                case 'A': return '#20c997';
-                case 'B+': return '#17a2b8';
-                case 'B': return '#007bff';
-                case 'C': return '#6f42c1';
-                case 'D': return '#fd7e14';
-                case 'E': return '#dc3545';
-                case 'F': return '#6c757d';
-                default: return '#6c757d';
+            
+            if (myTests.length > 10) {
+                const moreItem = document.createElement('div');
+                moreItem.className = 'test-item';
+                moreItem.style.textAlign = 'center';
+                moreItem.innerHTML = `
+                    <div>... and ${myTests.length - 10} more tests</div>
+                `;
+                testHistoryEl.appendChild(moreItem);
             }
         }
 
-        // Update class statistics
-        function updateClassStats() {
-            totalStudentsEl.textContent = students.length;
+        // Update statistics
+        function updateStats() {
+            totalTestsEl.textContent = myTests.length;
             
-            if (students.length === 0) {
-                classAverageEl.textContent = '0%';
-                topScoreEl.textContent = '0';
-                passRateEl.textContent = '0%';
+            if (myTests.length === 0) {
+                avgScoreEl.textContent = '0';
+                bestScoreEl.textContent = '0';
+                avgAccuracyEl.textContent = '0%';
+                monthlyTestsEl.textContent = '0';
+                scoreTrendEl.textContent = '';
+                accuracyTrendEl.textContent = '';
                 return;
             }
             
-            const totalPercentage = students.reduce((sum, student) => sum + student.percentage, 0);
-            const average = (totalPercentage / students.length).toFixed(2);
-            classAverageEl.textContent = `${average}%`;
+            // Average score
+            const totalScore = myTests.reduce((sum, test) => sum + test.score, 0);
+            const averageScore = (totalScore / myTests.length).toFixed(1);
+            avgScoreEl.textContent = averageScore;
             
-            const maxScore = Math.max(...students.map(s => s.score));
-            topScoreEl.textContent = maxScore;
+            // Best score
+            const bestScore = Math.max(...myTests.map(t => t.score));
+            bestScoreEl.textContent = bestScore;
             
-            const passingStudents = students.filter(s => s.grade !== 'F').length;
-            const passRate = ((passingStudents / students.length) * 100).toFixed(1);
-            passRateEl.textContent = `${passRate}%`;
-        }
-
-        // Export to Excel
-        function exportToExcel() {
-            if (students.length === 0) {
-                alert('No student data to export!');
-                return;
+            // Average accuracy
+            const totalAccuracy = myTests.reduce((sum, test) => sum + test.accuracy, 0);
+            const averageAccuracy = (totalAccuracy / myTests.length).toFixed(1);
+            avgAccuracyEl.textContent = `${averageAccuracy}%`;
+            
+            // Tests this month
+            const currentMonth = new Date().getMonth();
+            const currentYear = new Date().getFullYear();
+            const monthlyTests = myTests.filter(test => {
+                const testDate = new Date(test.date);
+                return testDate.getMonth() === currentMonth && testDate.getFullYear() === currentYear;
+            }).length;
+            monthlyTestsEl.textContent = monthlyTests;
+            
+            // Score trend
+            if (myTests.length >= 2) {
+                const lastTest = myTests[0].score;
+                const prevTest = myTests[1].score;
+                const scoreDiff = lastTest - prevTest;
+                const trendIcon = scoreDiff >= 0 ? '↗' : '↘';
+                const trendColor = scoreDiff >= 0 ? '#28a745' : '#dc3545';
+                scoreTrendEl.innerHTML = `<span style="color: ${trendColor}">${trendIcon} ${Math.abs(scoreDiff)}</span> from last`;
             }
             
-            // Create CSV content
-            let csv = 'Student Name,Correct Answers,Wrong Answers,Attempted,Score,Percentage,Grade,Accuracy\n';
-            
-            students.forEach(student => {
-                csv += `"${student.name}",${student.correct},${student.wrong},${student.attempted},${student.score},${student.percentage},${student.grade},${student.accuracy}\n`;
-            });
-            
-            // Add summary
-            csv += '\n\nSUMMARY\n';
-            csv += `Total Students,${students.length}\n`;
-            csv += `Class Average,${classAverageEl.textContent}\n`;
-            csv += `Top Score,${topScoreEl.textContent}\n`;
-            csv += `Pass Rate,${passRateEl.textContent}\n`;
-            
-            // Add test parameters
-            csv += '\nTEST PARAMETERS\n';
-            csv += `Total Questions,${totalQuestionsInput.value}\n`;
-            csv += `Positive Marks,${positiveMarksInput.value}\n`;
-            csv += `Negative Marks,${negativeMarksInput.value}\n`;
-            
-            // Create download link
-            const blob = new Blob([csv], { type: 'text/csv' });
-            const url = window.URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = `mock-test-results-${new Date().toISOString().slice(0,10)}.csv`;
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-            window.URL.revokeObjectURL(url);
+            // Accuracy trend
+            if (myTests.length >= 2) {
+                const lastAcc = myTests[0].accuracy;
+                const prevAcc = myTests[1].accuracy;
+                const accDiff = (lastAcc - prevAcc).toFixed(1);
+                const trendIcon = accDiff >= 0 ? '↗' : '↘';
+                const trendColor = accDiff >= 0 ? '#28a745' : '#dc3545';
+                accuracyTrendEl.innerHTML = `<span style="color: ${trendColor}">${trendIcon} ${Math.abs(accDiff)}%</span> from last`;
+            }
         }
 
         // Initialize Chart
         function initializeChart() {
-            const ctx = document.getElementById('performanceChart').getContext('2d');
-            performanceChart = new Chart(ctx, {
-                type: 'bar',
+            const ctx = document.getElementById('progressChart').getContext('2d');
+            progressChart = new Chart(ctx, {
+                type: 'line',
                 data: {
                     labels: [],
-                    datasets: [
-                        {
-                            label: 'Score',
-                            data: [],
-                            backgroundColor: 'rgba(54, 162, 235, 0.7)',
-                            borderColor: 'rgba(54, 162, 235, 1)',
-                            borderWidth: 1
-                        },
-                        {
-                            label: 'Percentage',
-                            data: [],
-                            backgroundColor: 'rgba(255, 99, 132, 0.7)',
-                            borderColor: 'rgba(255, 99, 132, 1)',
-                            borderWidth: 1,
-                            type: 'line',
-                            yAxisID: 'y1'
-                        }
-                    ]
+                    datasets: [{
+                        label: 'Score Trend',
+                        data: [],
+                        borderColor: 'rgba(54, 162, 235, 1)',
+                        backgroundColor: 'rgba(54, 162, 235, 0.1)',
+                        borderWidth: 3,
+                        fill: true,
+                        tension: 0.3
+                    }]
                 },
                 options: {
                     responsive: true,
                     maintainAspectRatio: false,
                     scales: {
                         y: {
-                            beginAtZero: true,
+                            beginAtZero: false,
                             title: {
                                 display: true,
                                 text: 'Score'
-                            }
-                        },
-                        y1: {
-                            type: 'linear',
-                            display: true,
-                            position: 'right',
-                            beginAtZero: true,
-                            max: 100,
-                            title: {
-                                display: true,
-                                text: 'Percentage (%)'
-                            },
-                            grid: {
-                                drawOnChartArea: false
                             }
                         }
                     },
                     plugins: {
                         legend: {
-                            position: 'top',
+                            display: true,
+                            position: 'top'
                         },
                         title: {
                             display: true,
-                            text: 'Student Performance Overview'
+                            text: 'Your Progress Over Time',
+                            font: {
+                                size: 16
+                            }
                         }
                     }
                 }
@@ -1059,70 +877,82 @@
 
         // Update chart with data
         function updateChart() {
-            if (!performanceChart) return;
+            if (!progressChart || myTests.length === 0) return;
             
-            const sortedStudents = [...students].sort((a, b) => b.score - a.score);
-            const top10Students = sortedStudents.slice(0, 10);
+            // Get last 10 tests for chart
+            const recentTests = myTests.slice(0, 10).reverse();
             
-            performanceChart.data.labels = top10Students.map(s => s.name);
-            performanceChart.data.datasets[0].data = top10Students.map(s => s.score);
-            performanceChart.data.datasets[1].data = top10Students.map(s => s.percentage);
+            progressChart.data.labels = recentTests.map(test => {
+                const date = new Date(test.date);
+                return `${date.getDate()}/${date.getMonth() + 1}`;
+            });
             
-            performanceChart.update();
+            progressChart.data.datasets[0].data = recentTests.map(test => test.score);
+            
+            progressChart.update();
+        }
+
+        // Clear all history
+        function clearAllHistory() {
+            if (myTests.length === 0) {
+                alert('No test history to clear!');
+                return;
+            }
+            
+            if (confirm('Are you sure you want to delete ALL your test history? This cannot be undone.')) {
+                myTests = [];
+                saveToLocalStorage();
+                updateStats();
+                renderTestHistory();
+                updateChart();
+                alert('All test history cleared.');
+            }
+        }
+
+        // Export data
+        function exportData() {
+            if (myTests.length === 0) {
+                alert('No test data to export!');
+                return;
+            }
+            
+            // Create CSV content
+            let csv = 'Test Name,Date,Total Questions,Correct,Wrong,Score,Percentage,Grade,Accuracy,Completion\n';
+            
+            myTests.forEach(test => {
+                const date = new Date(test.date).toLocaleDateString();
+                csv += `"${test.name}",${date},${test.total},${test.correct},${test.wrong},${test.score},${test.percentage},${test.grade},${test.accuracy},${test.completion}\n`;
+            });
+            
+            // Add summary
+            csv += '\n\nSUMMARY\n';
+            csv += `Total Tests,${myTests.length}\n`;
+            csv += `Average Score,${avgScoreEl.textContent}\n`;
+            csv += `Best Score,${bestScoreEl.textContent}\n`;
+            csv += `Average Accuracy,${avgAccuracyEl.textContent}\n`;
+            
+            // Create download link
+            const blob = new Blob([csv], { type: 'text/csv' });
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `my-mock-test-history-${new Date().toISOString().slice(0,10)}.csv`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            window.URL.revokeObjectURL(url);
         }
 
         // Save to localStorage
         function saveToLocalStorage() {
-            localStorage.setItem('mockTestStudents', JSON.stringify(students));
-        }
-
-        // Clear all students
-        function clearAllStudents() {
-            if (students.length === 0) {
-                alert('No students to clear!');
-                return;
-            }
-            
-            if (confirm('Are you sure you want to clear ALL student data? This cannot be undone.')) {
-                students = [];
-                saveToLocalStorage();
-                renderStudentsTable();
-                updateClassStats();
-                updateChart();
-            }
-        }
-
-        // Reset form
-        function resetForm() {
-            if (confirm('Reset all form values to default?')) {
-                totalQuestionsInput.value = 100;
-                positiveMarksInput.value = 4;
-                negativeMarksInput.value = 1;
-                correctAnswersInput.value = 75;
-                wrongAnswersInput.value = 15;
-                updateResults();
-            }
+            localStorage.setItem('myMockTests', JSON.stringify(myTests));
         }
 
         // Event Listeners
         calculateBtn.addEventListener('click', updateResults);
-
-        addStudentBtn.addEventListener('click', () => {
-            const name = prompt('Enter student name:', `Student ${students.length + 1}`);
-            if (name === null) return;
-            
-            const correct = prompt('Enter number of correct answers:', correctAnswersInput.value);
-            if (correct === null) return;
-            
-            const wrong = prompt('Enter number of wrong answers:', wrongAnswersInput.value);
-            if (wrong === null) return;
-            
-            addStudent(name, parseInt(correct) || 0, parseInt(wrong) || 0);
-        });
-
-        exportBtn.addEventListener('click', exportToExcel);
-        resetBtn.addEventListener('click', resetForm);
-        clearAllBtn.addEventListener('click', clearAllStudents);
+        saveTestBtn.addEventListener('click', saveCurrentTest);
+        clearHistoryBtn.addEventListener('click', clearAllHistory);
+        exportDataBtn.addEventListener('click', exportData);
 
         // Update results when inputs change
         [totalQuestionsInput, correctAnswersInput, wrongAnswersInput, positiveMarksInput, negativeMarksInput]
@@ -1138,67 +968,72 @@
                 updateResults();
             }
             
-            // Ctrl + A to add student
-            if (e.ctrlKey && e.key === 'a') {
+            // Ctrl + S to save
+            if (e.ctrlKey && e.key === 's') {
                 e.preventDefault();
-                addStudentBtn.click();
-            }
-            
-            // Ctrl + E to export
-            if (e.ctrlKey && e.key === 'e') {
-                e.preventDefault();
-                exportBtn.click();
+                saveCurrentTest();
             }
         });
 
-        // Add sample data button (hidden feature)
-        const addSampleData = () => {
-            if (students.length > 0 && !confirm('Add sample data? This will add 5 sample students.')) return;
-            
-            const sampleNames = ['Alex Johnson', 'Maria Garcia', 'David Smith', 'Lisa Wang', 'James Brown'];
-            const sampleData = [
-                {correct: 85, wrong: 10},
-                {correct: 92, wrong: 5},
-                {correct: 78, wrong: 12},
-                {correct: 65, wrong: 20},
-                {correct: 45, wrong: 35}
-            ];
-            
-            sampleNames.forEach((name, index) => {
-                addStudent(name, sampleData[index].correct, sampleData[index].wrong);
-            });
-            
-            alert('Sample data added!');
-        };
-
-        // Add help button
-        const helpBtn = document.createElement('button');
-        helpBtn.innerHTML = '<i class="fas fa-question-circle"></i>';
-        helpBtn.style.cssText = `
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            background: var(--primary);
-            color: white;
-            border: none;
-            font-size: 24px;
-            cursor: pointer;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-            z-index: 1000;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        `;
-        helpBtn.onclick = () => {
-            alert(`Keyboard Shortcuts:\n\nCtrl + Enter: Calculate Score\nCtrl + A: Add Student\nCtrl + E: Export Data\n\nClick "Add Student" to begin, then export when done!`);
-        };
-        document.body.appendChild(helpBtn);
-
-        // Add sample data button (double-click header)
-        document.querySelector('header').addEventListener('dblclick', addSampleData);
+        // Add sample data for first-time users
+        if (myTests.length === 0) {
+            const shouldAddSamples = confirm('Welcome! Would you like to add some sample test data to see how it works?');
+            if (shouldAddSamples) {
+                const sampleTests = [
+                    {
+                        id: 1,
+                        name: 'Physics Mock Test',
+                        date: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString(),
+                        total: 100,
+                        correct: 85,
+                        wrong: 10,
+                        posMarks: 4,
+                        negMarks: 1,
+                        score: 330,
+                        percentage: 82.5,
+                        grade: 'A',
+                        accuracy: 89.5,
+                        completion: 95
+                    },
+                    {
+                        id: 2,
+                        name: 'Chemistry Practice',
+                        date: new Date(Date.now() - 5 * 24 * 60 * 60 * 1000).toISOString(),
+                        total: 100,
+                        correct: 78,
+                        wrong: 12,
+                        posMarks: 4,
+                        negMarks: 1,
+                        score: 300,
+                        percentage: 75.0,
+                        grade: 'B+',
+                        accuracy: 86.7,
+                        completion: 90
+                    },
+                    {
+                        id: 3,
+                        name: 'Math Final Test',
+                        date: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000).toISOString(),
+                        total: 100,
+                        correct: 92,
+                        wrong: 5,
+                        posMarks: 4,
+                        negMarks: 1,
+                        score: 363,
+                        percentage: 90.8,
+                        grade: 'A+',
+                        accuracy: 94.8,
+                        completion: 97
+                    }
+                ];
+                
+                myTests = sampleTests;
+                saveToLocalStorage();
+                updateStats();
+                renderTestHistory();
+                updateChart();
+            }
+        }
     </script>
 </body>
 </html>
